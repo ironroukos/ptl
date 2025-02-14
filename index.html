@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PasokoBet</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
+
+        :root {
+            --primary: #008000;
+            --secondary: #006400;
+            --bg-light: #f0f0f0;
+            --border: #c0c0c0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: var(--bg-light);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 48px;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--secondary);
+            font-size: 18px;
+            font-weight: normal;
+            margin-top: 5px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            min-width: 200px;
+        }
+
+        .sidebar button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .sidebar button:hover {
+            background: var(--secondary);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stats p {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-light);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        td, th {
+            text-align: center;
+            padding: 10px;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+        }
+
+        tr:hover {
+            background: #e0e0e0;
+        }
+
+        .won {
+            background-color: #d4edda; /* Light green */
+        }
+
+        .lost {
+            background-color: #f8d7da; /* Light red */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PasokoBet</h1>
+        <h2>#gia_ena_kalytero_avrio</h2>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>Sports</h3>
+            <button onclick="filterBets('sport', 'Football')">Football</button>
+            <button onclick="filterBets('sport', 'Basketball')">Basketball</button>
+            <button onclick="filterBets('sport', 'Tennis')">Tennis</button>
+            <button onclick="filterBets('sport', 'all')">All Sports</button>
+
+            <h3 style="margin-top: 20px;">Tipsters</h3>
+            <button onclick="filterBets('tipster', 'Teacher')">Teacher</button>
+            <button onclick="filterBets('tipster', 'CEO Picks')">CEO Picks</button>
+            <button onclick="filterBets('tipster', 'Egyptian')">Egyptian</button>
+            <button onclick="filterBets('tipster', 'Accountant')">Accountant</button>
+            <button onclick="filterBets('tipster', 'BetDreamer')">BetDreamer</button>
+            <button onclick="filterBets('tipster', 'all')">All Tipsters</button>
+        </aside>
+
+        <main class="content">
+            <div class="stats">
+                <p>Total Bets: <span id="total-bets">0</span></p>
+                <p>Won: <span id="won-bets">0</span></p>
+                <p>Lost: <span id="lost-bets">0</span></p>
+                <p>Profit: <span id="profit-loss">€0.00</span></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sport</th>
+                        <th>Tipster</th>
+                        <th>Date</th>
+                        <th>Match</th>
+                        <th>Prediction</th>
+                        <th>Odds</th>
+                        <th>Stake</th>
+                        <th>Result</th>
+                        <th>+/-</th>
+                    </tr>
+                </thead>
+                <tbody id="bets-list">
+                    <!-- Bets will be loaded here -->
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <script>
+        const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhc8Xcasi8_LyoO8J1Cltv0yLzRGkYnKYk6rQhox4-dcyHgj0ZPAtY5IJ-rHtr48K80vOyyFnrkjto/pub?output=csv";
+
+        let allBets = [];
+        let activeFilters = { sport: "all", tipster: "all" };
+
+        function fetchBets() {
+            Papa.parse(sheetURL, {
+                download: true,
+                header: true,
+                dynamicTyping: true,
+                complete: function(results) {
+                    allBets = results.data;
+                    allBets.sort((a, b) => new Date(b.Date) - new Date(a.Date)); // Sort by latest
+                    applyFilters();
+                }
+            });
+        }
+
+        function filterBets(type, value) {
+            activeFilters[type] = activeFilters[type] === value ? "all" : value;
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const filteredBets = allBets.filter(bet => {
+                const sportMatch = activeFilters.sport === "all" || bet.Sport === activeFilters.sport;
+                const tipsterMatch = activeFilters.tipster === "all" || bet.Tipster === activeFilters.tipster;
+                return sportMatch && tipsterMatch;
+            });
+
+            renderBets(filteredBets);
+            updateStats(filteredBets);
+        }
+
+        function calculateProfitLoss(bet) {
+            if (bet.Result === 'Won') return (bet.Stake * (bet.Odds - 1)).toFixed(2);
+            if (bet.Result === 'Lost') return (-bet.Stake).toFixed(2);
+            return "0.00";
+        }
+
+        function renderBets(bets) {
+            const tbody = document.getElementById('bets-list');
+            tbody.innerHTML = bets.map(bet => `
+                <tr class="${bet.Result === 'Won' ? 'won' : bet.Result === 'Lost' ? 'lost' : ''}">
+                    <td>${bet.Sport}</td>
+                    <td>${bet.Tipster}</td>
+                    <td>${bet.Date}</td>
+                    <td>${bet.Match}</td>
+                    <td>${bet.Prediction}</td>
+                    <td>${bet.Odds.toFixed(2)}</td>
+                    <td>${bet.Stake}</td>
+                    <td>${bet.Result}</td>
+                    <td>${calculateProfitLoss(bet)}€</td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats(bets) {
+            document.getElementById("total-bets").textContent = bets.length;
+            document.getElementById("won-bets").textContent = bets.filter(bet => bet.Result === "Won").length;
+            document.getElementById("lost-bets").textContent = bets.filter(bet => bet.Result === "Lost").length;
+            document.getElementById("profit-loss").textContent = bets.reduce((sum, bet) => sum + parseFloat(calculateProfitLoss(bet)), 0).toFixed(2) + "€";
+        }
+
+        fetchBets();
+    </script>
+</body>
+</html>
