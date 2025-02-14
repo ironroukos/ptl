@@ -174,28 +174,6 @@
             </table>
         </main>
     </div>
-
-    <script>
-        function calculateProfitLoss(bet) {
-            if (bet.Result === 'Won') return (bet.Stake * (bet.Odds - 1)).toFixed(2);
-            if (bet.Result === 'Lost') return (-bet.Stake).toFixed(2);
-            return "-"; // Pending
-        }
-
-        function renderBets(bets) {
-            const tbody = document.getElementById('bets-list');
-            tbody.innerHTML = bets.map(bet => `
-                <tr class="${bet.Result.toLowerCase()}">
-                    <td>${bet.Date}</td>
-                    <td>${bet.Match}</td>
-                    <td>${bet.Prediction}</td>
-                    <td>${bet.Odds}</td>
-                    <td>${bet.Stake}</td>
-                    <td>${bet.Result}</td>
-                    <td>${calculateProfitLoss(bet)}€</td>
-                </tr>
-            `).join('');
-        }
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
