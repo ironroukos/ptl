@@ -12,16 +12,10 @@
         <h1>PasokoBet</h1>
         <h2>#gia_ena_kalytero_avrio</h2>
     </header>
-     
+    
 <div class="container">
     <aside class="sidebar">
-        <h3>Sports</h3>
-        <button data-filter-type="sport" data-filter-value="all">All</button>
-        <button data-filter-type="sport" data-filter-value="Football">Football</button>
-        <button data-filter-type="sport" data-filter-value="Basketball">Basketball</button>
-        <button data-filter-type="sport" data-filter-value="Tennis">Tennis</button>
-
-        <h3 style="margin-top: 20px;">Tipsters</h3>      
+        <h3>Tipsters</h3>      
         <button data-filter-type="tipster" data-filter-value="all">All</button>
         <button data-filter-type="tipster" data-filter-value="Teacher">Teacher</button>
         <button data-filter-type="tipster" data-filter-value="CEO Picks">CEO Picks</button>
@@ -30,31 +24,29 @@
         <button data-filter-type="tipster" data-filter-value="BetDreamer">BetDreamer</button>
     </aside>
     
-        <main class="content">
-            <div class="stats">
-                <p>Total Bets: <span id="total-bets">0</span></p>
-                <p>Won: <span id="won-bets">0</span></p>
-                <p>Lost: <span id="lost-bets">0</span></p>
-                <p>Profit: <span id="profit-loss">€0.00</span></p>
-            </div>
+    <main class="content">
+        <div class="stats">
+            <p>Total Bets: <span id="total-bets">0</span></p>
+            <p>Won: <span id="won-bets">0</span></p>
+            <p>Lost: <span id="lost-bets">0</span></p>
+        </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date & Time</th>
-                        <th>Match</th>
-                        <th>Prediction</th>
-                        <th>Odds</th>
-                        <th>Stake</th>
-                        <th>Result</th>
-                        <th>+/-</th>
-                    </tr>
-                </thead>
-                <tbody id="bets-list"></tbody>
-            </table>
-        </main>
-    </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date & Time</th>
+                    <th>Match</th>
+                    <th>Prediction</th>
+                    <th>Odds</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody id="bets-list"></tbody>
+        </table>
+    </main>
+</div>
     
 <script src="script.js"></script>
 </body>
 </html>
+
