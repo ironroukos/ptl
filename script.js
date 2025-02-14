@@ -12,21 +12,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Load CSV data
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQhc8Xcasi8_LyoO8J1Cltv0yLzRGkYnKYk6rQhox4-dcyHgj0ZPAtY5IJ-rHtr48K80vOyyFnrkjto/pub?output=csv")
+    fetch("YOUR_CSV_URL")
         .then(response => response.text())
         .then(csvData => {
             Papa.parse(csvData, {
                 header: true,
                 dynamicTyping: true,
                 complete: (results) => {
-                    allBets = results.data.filter(bet => bet.Date); // Remove empty rows
-                    allBets.sort((a, b) => new Date(b.Date) - new Date(a.Date));
+                    allBets = results.data.filter(bet => bet['T1 Date & Time']);
+                    allBets.sort((a, b) => new Date(b['T1 Date & Time']) - new Date(a['T1 Date & Time']));
                     applyFilters();
                 },
-                error: (err) => console.error("CSV Parsing Error:", err)
+                error: (err) => console.error("CSV Error:", err)
             });
         })
-        .catch(error => console.error("Error loading bets:", error));
+        .catch(error => console.error("Fetch Error:", error));
 });
 
 function filterBets(type, value) {
@@ -45,9 +45,10 @@ function applyFilters() {
 }
 
 function calculateProfitLoss(bet) {
+    if (!bet.Odds || !bet.Stake) return 0; // Handle missing values
     if (bet.Result === "Won") return (bet.Stake * (bet.Odds - 1)).toFixed(2);
     if (bet.Result === "Lost") return (-bet.Stake).toFixed(2);
-    return 0; // For pending bets
+    return 0;
 }
 
 function updateStats(bets) {
@@ -65,13 +66,13 @@ function updateStats(bets) {
 function renderBets(bets) {
     const tbody = document.getElementById("bets-list");
     tbody.innerHTML = bets.map(bet => `
-        <tr class="${bet.Result.toLowerCase()}">
-            <td>${bet.Date}</td>
+        <tr class="${(bet.Result || 'Pending').toLowerCase()}">
+            <td>${bet['T1 Date & Time']}</td>
             <td>${bet.Match}</td>
             <td>${bet.Prediction}</td>
-            <td>${bet.Odds.toFixed(2)}</td>
-            <td>${bet.Stake}</td>
-            <td>${bet.Result}</td>
+            <td>${bet.Odds?.toFixed(2) || '-'}</td>
+            <td>${bet.Stake || '-'}</td>
+            <td>${bet.Result || 'Pending'}</td>
             <td>${calculateProfitLoss(bet) !== 0 ? '€' + calculateProfitLoss(bet) : '-'}</td>
         </tr>
     `).join("");
