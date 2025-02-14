@@ -47,28 +47,29 @@ h2 {
 
 .sidebar {
     background: var(--bg-light);
-    padding: 15px;
+    padding: 10px;
     border-radius: 12px;
-    min-width: 160px;
+    min-width: 140px;
+    flex-shrink: 0;
 }
 
 .sidebar h3 {
     color: var(--primary);
-    margin-bottom: 10px;
-    font-size: 16px;
+    margin-bottom: 8px 0;
+    font-size: 15px;
 }
 
 .sidebar button {
     width: 100%;
-    padding: 10px;
-    margin: 6px 0;
+    padding: 8px 6px;
+    margin: 4px 0;
     background: var(--primary);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .sidebar button:hover {
