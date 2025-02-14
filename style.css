@@ -1,0 +1,126 @@
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
+
+:root {
+    --primary: #008000;
+    --secondary: #006400;
+    --bg-light: #f0f0f0;
+    --border: #c0c0c0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: white;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: var(--bg-light);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 48px;
+    color: var(--primary);
+    margin: 0;
+}
+
+h2 {
+    color: var(--secondary);
+    font-size: 18px;
+    font-weight: normal;
+    margin-top: 5px;
+}
+
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    gap: 20px;
+}
+
+.sidebar {
+    background: var(--bg-light);
+    padding: 15px;
+    border-radius: 12px;
+    min-width: 160px;
+}
+
+.sidebar h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 14px;
+}
+
+.sidebar button:hover {
+    background: var(--secondary);
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    background: var(--bg-light);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.stats p {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary);
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-light);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+td, th {
+    text-align: center;
+    padding: 10px;
+}
+
+th {
+    background: var(--primary);
+    color: white;
+}
+
+tr:hover {
+    background: #e0e0e0;
+}
+
+.won {
+    background-color: #d4edda;
+}
+
+.lost {
+    background-color: #f8d7da;
+}
+
+.pending {
+    background-color: #fff3cd;
+}
