@@ -54,21 +54,22 @@
 
         .sidebar {
             background: var(--bg-light);
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
-            min-width: 200px;
+            min-width: 160px; /* Slimmer sidebar */
         }
 
         .sidebar button {
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
+            padding: 10px;
+            margin: 6px 0;
             background: var(--primary);
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: background 0.3s;
+            font-size: 14px;
         }
 
         .sidebar button:hover {
@@ -103,7 +104,7 @@
             text-align: center;
             padding: 10px;
         }
-
+        
         th {
             background: var(--primary);
             color: white;
@@ -118,7 +119,7 @@
         }
 
         .lost {
-            background-color: #f8d7da; /* Light red */
+         background-color: #f8d7da; /* Light red */
         }
     </style>
 </head>
@@ -156,8 +157,6 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Sport</th>
-                        <th>Tipster</th>
                         <th>Date</th>
                         <th>Match</th>
                         <th>Prediction</th>
@@ -173,73 +172,6 @@
             </table>
         </main>
     </div>
-
-    <script>
-        const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhc8Xcasi8_LyoO8J1Cltv0yLzRGkYnKYk6rQhox4-dcyHgj0ZPAtY5IJ-rHtr48K80vOyyFnrkjto/pub?output=csv";
-
-        let allBets = [];
-        let activeFilters = { sport: "all", tipster: "all" };
-
-        function fetchBets() {
-            Papa.parse(sheetURL, {
-                download: true,
-                header: true,
-                dynamicTyping: true,
-                complete: function(results) {
-                    allBets = results.data;
-                    allBets.sort((a, b) => new Date(b.Date) - new Date(a.Date)); // Sort by latest
-                    applyFilters();
-                }
-            });
-        }
-
-        function filterBets(type, value) {
-            activeFilters[type] = activeFilters[type] === value ? "all" : value;
-            applyFilters();
-        }
-
-        function applyFilters() {
-            const filteredBets = allBets.filter(bet => {
-                const sportMatch = activeFilters.sport === "all" || bet.Sport === activeFilters.sport;
-                const tipsterMatch = activeFilters.tipster === "all" || bet.Tipster === activeFilters.tipster;
-                return sportMatch && tipsterMatch;
-            });
-
-            renderBets(filteredBets);
-            updateStats(filteredBets);
-        }
-
-        function calculateProfitLoss(bet) {
-            if (bet.Result === 'Won') return (bet.Stake * (bet.Odds - 1)).toFixed(2);
-            if (bet.Result === 'Lost') return (-bet.Stake).toFixed(2);
-            return "0.00";
-        }
-
-        function renderBets(bets) {
-            const tbody = document.getElementById('bets-list');
-            tbody.innerHTML = bets.map(bet => `
-                <tr class="${bet.Result === 'Won' ? 'won' : bet.Result === 'Lost' ? 'lost' : ''}">
-                    <td>${bet.Sport}</td>
-                    <td>${bet.Tipster}</td>
-                    <td>${bet.Date}</td>
-                    <td>${bet.Match}</td>
-                    <td>${bet.Prediction}</td>
-                    <td>${bet.Odds.toFixed(2)}</td>
-                    <td>${bet.Stake}</td>
-                    <td>${bet.Result}</td>
-                    <td>${calculateProfitLoss(bet)}€</td>
-                </tr>
-            `).join('');
-        }
-
-        function updateStats(bets) {
-            document.getElementById("total-bets").textContent = bets.length;
-            document.getElementById("won-bets").textContent = bets.filter(bet => bet.Result === "Won").length;
-            document.getElementById("lost-bets").textContent = bets.filter(bet => bet.Result === "Lost").length;
-            document.getElementById("profit-loss").textContent = bets.reduce((sum, bet) => sum + parseFloat(calculateProfitLoss(bet)), 0).toFixed(2) + "€";
-        }
-
-        fetchBets();
-    </script>
 </body>
 </html>
+
