@@ -54,9 +54,9 @@
 
         .sidebar {
             background: var(--bg-light);
-            padding: 10px;
+            padding: 15px;
             border-radius: 12px;
-            min-width: 150px;
+            min-width: 140px;
         }
 
         .sidebar button {
@@ -80,13 +80,13 @@
             display: flex;
             justify-content: space-around;
             background: var(--bg-light);
-            padding: 15px;
+            padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
         }
 
         .stats p {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             color: var(--primary);
             margin: 0;
@@ -104,7 +104,7 @@
             text-align: center;
             padding: 10px;
         }
-
+        
         th {
             background: var(--primary);
             color: white;
@@ -115,15 +115,11 @@
         }
 
         .won {
-            background-color: #d4edda; /* Light green */
+            background-color: #d4edda;
         }
 
         .lost {
-            background-color: #f8d7da; /* Light red */
-        }
-
-        .pending {
-            background-color: #fff3cd; /* Light yellow */
+            background-color: #f8d7da;
         }
     </style>
 </head>
@@ -140,6 +136,14 @@
             <button onclick="filterBets('sport', 'Basketball')">Basketball</button>
             <button onclick="filterBets('sport', 'Tennis')">Tennis</button>
             <button onclick="filterBets('sport', 'all')">All Sports</button>
+
+            <h3 style="margin-top: 20px;">Tipsters</h3>
+            <button onclick="filterBets('tipster', 'Teacher')">Teacher</button>
+            <button onclick="filterBets('tipster', 'CEO Picks')">CEO Picks</button>
+            <button onclick="filterBets('tipster', 'Egyptian')">Egyptian</button>
+            <button onclick="filterBets('tipster', 'Accountant')">Accountant</button>
+            <button onclick="filterBets('tipster', 'BetDreamer')">BetDreamer</button>
+            <button onclick="filterBets('tipster', 'all')">All Tipsters</button>
         </aside>
 
         <main class="content">
@@ -147,7 +151,6 @@
                 <p>Total Bets: <span id="total-bets">0</span></p>
                 <p>Won: <span id="won-bets">0</span></p>
                 <p>Lost: <span id="lost-bets">0</span></p>
-                <p>Pending: <span id="pending-bets">0</span></p>
                 <p>Profit: <span id="profit-loss">€0.00</span></p>
             </div>
 
@@ -167,36 +170,5 @@
             </table>
         </main>
     </div>
-
-    <script>
-        function calculateProfitLoss(bet) {
-            if (bet.Result === 'Won') return (bet.Stake * (bet.Odds - 1)).toFixed(2);
-            if (bet.Result === 'Lost') return (-bet.Stake).toFixed(2);
-            return "-"; // Pending
-        }
-
-        function renderBets(bets) {
-            const tbody = document.getElementById('bets-list');
-            tbody.innerHTML = bets.map(bet => `
-                <tr class="${bet.Result.toLowerCase()}">
-                    <td>${bet.Date}</td>
-                    <td>${bet.Match}</td>
-                    <td>${bet.Prediction}</td>
-                    <td>${bet.Odds}</td>
-                    <td>${bet.Stake}</td>
-                    <td>${bet.Result}</td>
-                    <td>${calculateProfitLoss(bet)}€</td>
-                </tr>
-            `).join('');
-        }
-
-        function updateStats(bets) {
-            document.getElementById("total-bets").textContent = bets.length;
-            document.getElementById("won-bets").textContent = bets.filter(b => b.Result === "Won").length;
-            document.getElementById("lost-bets").textContent = bets.filter(b => b.Result === "Lost").length;
-            document.getElementById("pending-bets").textContent = bets.filter(b => b.Result === "Pending").length;
-            document.getElementById("profit-loss").textContent = bets.reduce((sum, b) => sum + (b.Result !== "Pending" ? parseFloat(calculateProfitLoss(b)) : 0), 0).toFixed(2) + "€";
-        }
-    </script>
 </body>
 </html>
