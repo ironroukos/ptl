@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Load CSV data
-    fetch("YOUR_CSV_URL")
+    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQhc8Xcasi8_LyoO8J1Cltv0yLzRGkYnKYk6rQhox4-dcyHgj0ZPAtY5IJ-rHtr48K80vOyyFnrkjto/pub?output=csv")
         .then(response => response.text())
         .then(csvData => {
             Papa.parse(csvData, {
