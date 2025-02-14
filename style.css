@@ -78,20 +78,29 @@ h2 {
 
 .stats {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     background: var(--bg-light);
-    padding: 20px;
+    padding: 15px;
     border-radius: 12px;
     margin-bottom: 20px;
+    flex-wrap: wrap; /* Ensures responsiveness */
+    gap: 15px;
 }
 
 .stats p {
     font-size: 16px;
     font-weight: bold;
     color: var(--primary);
-    margin: 5px 0;
+    margin: 0;
+    padding: 10px 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 1; /* Makes sure they align evenly */
+    text-align: center;
 }
+
 
 .stats .tipster-stats {
     margin-top: 10px;
