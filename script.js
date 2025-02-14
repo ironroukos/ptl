@@ -1,5 +1,3 @@
-import Papa from 'papaparse';
-
 let allBets = [];
 let activeFilters = { sport: "all", tipster: "all" };
 
