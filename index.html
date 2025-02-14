@@ -12,24 +12,24 @@
         <h1>PasokoBet</h1>
         <h2>#gia_ena_kalytero_avrio</h2>
     </header>
+     
+<div class="container">
+    <aside class="sidebar">
+        <h3>Sports</h3>
+        <button data-filter-type="sport" data-filter-value="all">All</button>
+        <button data-filter-type="sport" data-filter-value="Football">Football</button>
+        <button data-filter-type="sport" data-filter-value="Basketball">Basketball</button>
+        <button data-filter-type="sport" data-filter-value="Tennis">Tennis</button>
+
+        <h3 style="margin-top: 20px;">Tipsters</h3>      
+        <button data-filter-type="tipster" data-filter-value="all">All</button>
+        <button data-filter-type="tipster" data-filter-value="Teacher">Teacher</button>
+        <button data-filter-type="tipster" data-filter-value="CEO Picks">CEO Picks</button>
+        <button data-filter-type="tipster" data-filter-value="Egyptian">Egyptian</button>
+        <button data-filter-type="tipster" data-filter-value="Accountant">Accountant</button>
+        <button data-filter-type="tipster" data-filter-value="BetDreamer">BetDreamer</button>
+    </aside>
     
-    <div class="container">
-        <aside class="sidebar">
-            <h3>Sports</h3>
-            <button onclick="filterBets('sport', 'all')">All</button>
-            <button onclick="filterBets('sport', 'Football')">Football</button>
-            <button onclick="filterBets('sport', 'Basketball')">Basketball</button>
-            <button onclick="filterBets('sport', 'Tennis')">Tennis</button>
-
-            <h3 style="margin-top: 20px;">Tipsters</h3>      
-            <button onclick="filterBets('tipster', 'all')">All</button>
-            <button onclick="filterBets('tipster', 'Teacher')">Teacher</button>
-            <button onclick="filterBets('tipster', 'CEO Picks')">CEO Picks</button>
-            <button onclick="filterBets('tipster', 'Egyptian')">Egyptian</button>
-            <button onclick="filterBets('tipster', 'Accountant')">Accountant</button>
-            <button onclick="filterBets('tipster', 'BetDreamer')">BetDreamer</button>
-        </aside>
-
         <main class="content">
             <div class="stats">
                 <p>Total Bets: <span id="total-bets">0</span></p>
