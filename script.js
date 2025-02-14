@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 header: true,
                 dynamicTyping: true,
                 complete: (results) => {
-                    allBets = results.data.filter(bet => bet['T1 Date & Time']);
-                    allBets.sort((a, b) => new Date(b['T1 Date & Time']) - new Date(a['T1 Date & Time']));
+                    allBets = results.data.filter(bet => bet['Date & Time']);
+                    allBets.sort((a, b) => new Date(b['Date & Time']) - new Date(a['Date & Time']));
                     applyFilters();
                 },
                 error: (err) => console.error("CSV Error:", err)
@@ -67,7 +67,7 @@ function renderBets(bets) {
     const tbody = document.getElementById("bets-list");
     tbody.innerHTML = bets.map(bet => `
         <tr class="${(bet.Result || 'Pending').toLowerCase()}">
-            <td>${bet['T1 Date & Time']}</td>
+            <td>${bet['Date & Time']}</td>
             <td>${bet.Match}</td>
             <td>${bet.Prediction}</td>
             <td>${bet.Odds?.toFixed(2) || '-'}</td>
