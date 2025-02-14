@@ -53,12 +53,6 @@ h2 {
     flex-shrink: 0;
 }
 
-.sidebar h3 {
-    color: var(--primary);
-    margin-bottom: 8px;
-    font-size: 15px;
-}
-
 .sidebar button {
     width: 100%;
     padding: 6px 4px;
