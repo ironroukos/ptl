@@ -37,9 +37,9 @@ function applyFilters() {
 
 // Function to calculate profit/loss
 function calculateProfitLoss(bet) {
-    if (bet.Result === "Won") return bet.Stake * (bet.Odds - 1);
-    if (bet.Result === "Lost") return -bet.Stake;
-    return 0;
+    if (bet.Result === "Won") return (bet.Stake * (bet.Odds - 1)).toFixed(2);
+    if (bet.Result === "Lost") return (-bet.Stake).toFixed(2);
+    return "-"; // Pending
 }
 
 // Function to update statistics
@@ -47,7 +47,7 @@ function updateStats(bets) {
     document.getElementById("total-bets").textContent = bets.length;
     document.getElementById("won-bets").textContent = bets.filter(bet => bet.Result === "Won").length;
     document.getElementById("lost-bets").textContent = bets.filter(bet => bet.Result === "Lost").length;
-    document.getElementById("profit-loss").textContent = bets.reduce((sum, bet) => sum + calculateProfitLoss(bet), 0).toFixed(2) + "€";
+    document.getElementById("profit-loss").textContent = bets.reduce((sum, bet) => sum + parseFloat(calculateProfitLoss(bet)), 0).toFixed(2) + "€";
 }
 
 // Function to render bets in the table
@@ -55,20 +55,15 @@ function renderBets(bets) {
     const tableBody = document.getElementById("bets-list");
     if (!tableBody) return; // Prevent errors if table is missing
 
-    tableBody.innerHTML = bets
-        .map(
-            bet => `
-            <tr class="${bet.Result === 'Won' ? 'won' : bet.Result === 'Lost' ? 'lost' : ''}">
-                <td>${bet.Sport}</td>
-                <td>${bet.Tipster}</td>
-                <td>${bet.Date}</td>
-                <td>${bet.Match}</td>
-                <td>${bet.Prediction}</td>
-                <td>${bet.Odds.toFixed(2)}</td>
-                <td>${bet.Stake}</td>
-                <td>${bet.Result}</td>
-                <td>${calculateProfitLoss(bet).toFixed(2)}€</td>
-            </tr>`
-        )
-        .join("");
+    tableBody.innerHTML = bets.map(bet => `
+        <tr class="${bet.Result.toLowerCase()}">
+            <td>${bet.Date}</td>
+            <td>${bet.Match}</td>
+            <td>${bet.Prediction}</td>
+            <td>${bet.Odds.toFixed(2)}</td>
+            <td>${bet.Stake}</td>
+            <td>${bet.Result}</td>
+            <td>${calculateProfitLoss(bet)}€</td>
+        </tr>
+    `).join("");
 }
