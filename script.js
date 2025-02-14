@@ -1,5 +1,5 @@
 let allBets = [];
-let activeFilters = { sport: "all", tipster: "all" };
+let activeFilters = { tipster: "all" };
 
 document.addEventListener('DOMContentLoaded', () => {
     // Setup filter buttons
@@ -36,31 +36,16 @@ function filterBets(type, value) {
 
 function applyFilters() {
     const filteredBets = allBets.filter(bet => {
-        const sportMatch = activeFilters.sport === "all" || bet.Sport === activeFilters.sport;
-        const tipsterMatch = activeFilters.tipster === "all" || bet.Tipster === activeFilters.tipster;
-        return sportMatch && tipsterMatch;
+        return activeFilters.tipster === "all" || bet.Tipster === activeFilters.tipster;
     });
     renderBets(filteredBets);
     updateStats(filteredBets);
-}
-
-function calculateProfitLoss(bet) {
-    if (!bet.Odds || !bet.Stake) return 0; // Handle missing values
-    if (bet.Result === "Won") return (bet.Stake * (bet.Odds - 1)).toFixed(2);
-    if (bet.Result === "Lost") return (-bet.Stake).toFixed(2);
-    return 0;
 }
 
 function updateStats(bets) {
     document.getElementById("total-bets").textContent = bets.length;
     document.getElementById("won-bets").textContent = bets.filter(bet => bet.Result === "Won").length;
     document.getElementById("lost-bets").textContent = bets.filter(bet => bet.Result === "Lost").length;
-    
-    const totalProfit = bets.reduce((sum, bet) => {
-        return sum + parseFloat(calculateProfitLoss(bet));
-    }, 0).toFixed(2);
-    
-    document.getElementById("profit-loss").textContent = `€${totalProfit}`;
 }
 
 function renderBets(bets) {
@@ -71,9 +56,7 @@ function renderBets(bets) {
             <td>${bet.Match}</td>
             <td>${bet.Prediction}</td>
             <td>${bet.Odds?.toFixed(2) || '-'}</td>
-            <td>${bet.Stake || '-'}</td>
             <td>${bet.Result || 'Pending'}</td>
-            <td>${calculateProfitLoss(bet) !== 0 ? '€' + calculateProfitLoss(bet) : '-'}</td>
         </tr>
     `).join("");
 }
