@@ -112,6 +112,7 @@ table {
     background: var(--bg-light);
     border-radius: 12px;
     overflow: hidden;
+    user-select: none;
 }
 
 td, th {
