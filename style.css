@@ -45,12 +45,14 @@ h2 {
     gap: 20px;
 }
 
+/* Sidebar styles */
 .sidebar {
     background: var(--bg-light);
     padding: 10px;
     border-radius: 12px;
     min-width: 100px; /* Reduced width */
     flex-shrink: 0;
+    text-align: center; /* Center tipster buttons */
 }
 
 .sidebar button {
@@ -70,6 +72,7 @@ h2 {
     background: var(--secondary);
 }
 
+/* Stats styling */
 .stats {
     display: flex;
     justify-content: space-between;
@@ -95,13 +98,13 @@ h2 {
     text-align: center;
 }
 
-
 .stats .tipster-stats {
     margin-top: 10px;
     font-size: 14px;
     color: var(--secondary);
 }
 
+/* Table styling */
 .content {
     flex-grow: 1; /* Increase width */
 }
@@ -142,6 +145,7 @@ tr:hover {
     background-color: #fff3cd;
 }
 
+/* Mobile Optimization */
 @media screen and (max-width: 768px) {
     .container {
         flex-direction: column; /* Stack elements vertically */
@@ -159,5 +163,28 @@ tr:hover {
 
     table {
         width: 100%;
+    }
+} /* ✅ Fixed closing bracket issue */
+
+/* Hide dropdown on desktop */
+.mobile-dropdown {
+    display: none;
+}
+
+/* Mobile-specific dropdown */
+@media (max-width: 768px) {
+    .desktop-buttons {
+        display: none; /* Hide buttons */
+    }
+    .mobile-dropdown {
+        display: block; /* Show dropdown */
+        margin-bottom: 10px;
+    }
+    #tipster-dropdown {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid var(--primary);
     }
 }
