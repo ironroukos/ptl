@@ -141,3 +141,23 @@ tr:hover {
 .pending {
     background-color: #fff3cd;
 }
+
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center content */
+    }
+
+    .sidebar {
+        width: 100%; /* Make buttons take full width */
+        text-align: center;
+    }
+
+    .content {
+        width: 100%;
+    }
+
+    table {
+        width: 100%;
+    }
+}
