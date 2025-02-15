@@ -60,3 +60,7 @@ function renderBets(bets) {
         </tr>
     `).join("");
 }
+document.getElementById('tipster-dropdown').addEventListener('change', function() {
+    const selectedTipster = this.value;
+    filterBets('tipster', selectedTipster);
+});
