@@ -14,15 +14,31 @@
     </header>
     
 <div class="container">
-    <aside class="sidebar">    
-        <button data-filter-type="tipster" data-filter-value="all">All</button>
-        <button data-filter-type="tipster" data-filter-value="Teacher">Teacher</button>
-        <button data-filter-type="tipster" data-filter-value="CEO Picks">CEO Picks</button>
-        <button data-filter-type="tipster" data-filter-value="Egyptian">Egyptian</button>
-        <button data-filter-type="tipster" data-filter-value="Accountant">Accountant</button>
-        <button data-filter-type="tipster" data-filter-value="BetDreamer">BetDreamer</button>
+    <aside class="sidebar">
+        <!-- Dropdown for mobile -->
+        <div class="mobile-dropdown">
+            <select id="tipster-dropdown">
+                <option value="all">All</option>
+                <option value="Teacher">Teacher</option>
+                <option value="CEO Picks">CEO Picks</option>
+                <option value="Egyptian">Egyptian</option>
+                <option value="Accountant">Accountant</option>
+                <option value="BetDreamer">BetDreamer</option>
+            </select>
+        </div>
+
+        <!-- Buttons for desktop -->
+        <div class="desktop-buttons">
+            <button data-filter-type="tipster" data-filter-value="all">All</button>
+            <button data-filter-type="tipster" data-filter-value="Teacher">Teacher</button>
+            <button data-filter-type="tipster" data-filter-value="CEO Picks">CEO Picks</button>
+            <button data-filter-type="tipster" data-filter-value="Egyptian">Egyptian</button>
+            <button data-filter-type="tipster" data-filter-value="Accountant">Accountant</button>
+            <button data-filter-type="tipster" data-filter-value="BetDreamer">BetDreamer</button>
+        </div>
     </aside>
-    
+</div>
+
     <main class="content">
         <div class="stats">
             <p>Total Bets: <span id="total-bets">0</span></p>
@@ -48,4 +64,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
