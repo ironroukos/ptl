@@ -3,64 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PasokoBet</title>
+    <title>Pasokobet</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 </head>
 <body>
     <header>
-        <h1>PasokoBet</h1>
-        <h2>#gia_ena_kalytero_avrio</h2>
+        <h1>Wasted Gamblers</h1>
+        <h2>#paizoume_oti_exoume</h2>
     </header>
-    
-<div class="container">
-    <aside class="sidebar">
-        <!-- Dropdown for mobile -->
-        <div class="mobile-dropdown">
-            <select id="tipster-dropdown">
-                <option value="all">All</option>
-                <option value="Teacher">Teacher</option>
-                <option value="CEO Picks">CEO Picks</option>
-                <option value="Egyptian">Egyptian</option>
-                <option value="Accountant">Accountant</option>
-                <option value="BetDreamer">BetDreamer</option>
-            </select>
-        </div>
 
-        <!-- Buttons for desktop -->
-        <div class="desktop-buttons">
-            <button data-filter-type="tipster" data-filter-value="all">All</button>
-            <button data-filter-type="tipster" data-filter-value="Teacher">Teacher</button>
-            <button data-filter-type="tipster" data-filter-value="CEO Picks">CEO Picks</button>
-            <button data-filter-type="tipster" data-filter-value="Egyptian">Egyptian</button>
-            <button data-filter-type="tipster" data-filter-value="Accountant">Accountant</button>
-            <button data-filter-type="tipster" data-filter-value="BetDreamer">BetDreamer</button>
-        </div>
-    </aside>
-</div>
+    <div class="container">
+        <aside class="sidebar">
+            <!-- Mobile Dropdown -->
+            <div class="mobile-dropdown">
+                <select id="tipster-dropdown">
+                    <option value="all">All</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="CEO Picks">CEO Picks</option>
+                    <option value="Egyptian">Egyptian</option>
+                    <option value="Accountant">Accountant</option>
+                    <option value="BetDreamer">BetDreamer</option>
+                </select>
+            </div>
 
-    <main class="content">
-        <div class="stats">
-            <p>Total Bets: <span id="total-bets">0</span></p>
-            <p>Won: <span id="won-bets">0</span></p>
-            <p>Lost: <span id="lost-bets">0</span></p>
-        </div>
+            <!-- Desktop Buttons -->
+            <div class="desktop-buttons">
+                <h3>Tipsters</h3>
+                <button data-filter-type="tipster" data-filter-value="all">All</button>
+                <button data-filter-type="tipster" data-filter-value="Teacher">Teacher</button>
+                <button data-filter-type="tipster" data-filter-value="CEO Picks">CEO Picks</button>
+                <button data-filter-type="tipster" data-filter-value="Egyptian">Egyptian</button>
+                <button data-filter-type="tipster" data-filter-value="Accountant">Accountant</button>
+                <button data-filter-type="tipster" data-filter-value="BetDreamer">BetDreamer</button>
+            </div>
+        </aside>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Date & Time</th>
-                    <th>Match</th>
-                    <th>Prediction</th>
-                    <th>Odds</th>
-                    <th>Result</th>
-                </tr>
-            </thead>
-            <tbody id="bets-list"></tbody>
-        </table>
-    </main>
-</div>
-    
-<script src="script.js"></script>
+        <main class="content">
+            <div class="stats">
+                <p>Total Bets: <span id="total-bets">0</span></p>
+                <p>Won: <span id="won-bets">0</span></p>
+                <p>Lost: <span id="lost-bets">0</span></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Match</th>
+                        <th>Prediction</th>
+                        <th>Odds</th>
+                        <th>Stake</th>
+                        <th>Result</th>
+                        <th>+/-</th>
+                    </tr>
+                </thead>
+                <tbody id="bets-list"></tbody>
+            </table>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
