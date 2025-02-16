@@ -152,23 +152,11 @@ tr:hover {
     background: #292929;
 }
 
-/* Green & red highlights */
-.won {
-    background-color: rgba(76, 175, 80, 0.2);
-    color: var(--primary);
-    font-weight: bold;
-}
-
-.lost {
-    background-color: rgba(229, 57, 53, 0.2);
-    color: #e53935;
-    font-weight: bold;
-}
-
-.pending {
-    background-color: rgba(255, 193, 7, 0.2);
-    color: #ffc107;
-    font-weight: bold;
+/* Removed colors for win, lose, and pending */
+.won, .lost, .pending {
+    background: transparent !important;
+    color: var(--text-light) !important;
+    font-weight: normal !important;
 }
 
 /* Ensure numbers inside parentheses remain white */
@@ -198,4 +186,30 @@ tr:hover {
 
     .sidebar {
         width: 100%;
-        t
+        text-align: center;
+        padding: 10px;
+    }
+
+    .sidebar button {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .desktop-buttons {
+        display: none;
+    }
+
+    .mobile-dropdown {
+        display: block;
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    table {
+        font-size: 14px;
+    }
+}
