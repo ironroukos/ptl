@@ -1,4 +1,3 @@
-/* style.css */
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
 
 :root {
@@ -45,83 +44,73 @@ h2 {
     gap: 20px;
 }
 
-/* Sidebar styles */
+/* Sidebar */
 .sidebar {
     background: var(--bg-light);
-    padding: 10px;
+    padding: 15px;
     border-radius: 12px;
-    min-width: 100px; /* Reduced width */
-    flex-shrink: 0;
-    text-align: center; /* Center tipster buttons */
+    min-width: 160px;
 }
 
 .sidebar button {
     width: 100%;
-    padding: 6px 4px;
-    margin: 4px 0;
+    padding: 10px;
+    margin: 6px 0;
     background: var(--primary);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .sidebar button:hover {
     background: var(--secondary);
 }
 
-/* Stats styling */
+/* Mobile Dropdown */
+.mobile-dropdown {
+    display: none;
+}
+
+#tipster-dropdown {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--primary);
+}
+
+/* Stats */
 .stats {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-around;
     background: var(--bg-light);
-    padding: 15px;
+    padding: 20px;
     border-radius: 12px;
     margin-bottom: 20px;
-    flex-wrap: wrap; /* Ensures responsiveness */
-    gap: 15px;
 }
 
 .stats p {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     color: var(--primary);
     margin: 0;
-    padding: 10px 15px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    flex: 1; /* Makes sure they align evenly */
-    text-align: center;
 }
 
-.stats .tipster-stats {
-    margin-top: 10px;
-    font-size: 14px;
-    color: var(--secondary);
-}
-
-/* Table styling */
-.content {
-    flex-grow: 1; /* Increase width */
-}
-
+/* Table */
 table {
     width: 100%;
     border-collapse: collapse;
     background: var(--bg-light);
     border-radius: 12px;
     overflow: hidden;
-    user-select: none;
 }
 
 td, th {
     text-align: center;
     padding: 10px;
-    cursor: default;
 }
 
 th {
@@ -145,46 +134,17 @@ tr:hover {
     background-color: #fff3cd;
 }
 
-/* Mobile Optimization */
-@media screen and (max-width: 768px) {
-    .container {
-        flex-direction: column; /* Stack elements vertically */
-        align-items: center; /* Center content */
-    }
-
-    .sidebar {
-        width: 100%; /* Make buttons take full width */
-        text-align: center;
-    }
-
-    .content {
-        width: 100%;
-    }
-
-    table {
-        width: 100%;
-    }
-} /* ✅ Fixed closing bracket issue */
-
-/* Hide dropdown on desktop */
-.mobile-dropdown {
-    display: none;
-}
-
-/* Mobile-specific dropdown */
+/* Mobile Styles */
 @media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
     .desktop-buttons {
-        display: none; /* Hide buttons */
+        display: none;
     }
+
     .mobile-dropdown {
-        display: block; /* Show dropdown */
-        margin-bottom: 10px;
-    }
-    #tipster-dropdown {
-        width: 100%;
-        padding: 8px;
-        font-size: 16px;
-        border-radius: 8px;
-        border: 1px solid var(--primary);
+        display: block;
     }
 }
