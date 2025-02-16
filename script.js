@@ -55,16 +55,60 @@ function calculateProfitLoss(bet) {
 }
 
 function updateStats(bets) {
+    // Update general stats
     document.getElementById("total-bets").textContent = bets.length;
     document.getElementById("won-bets").textContent = bets.filter(bet => bet.Result === "Won").length;
     document.getElementById("lost-bets").textContent = bets.filter(bet => bet.Result === "Lost").length;
-    
+
+    // Calculate total Profit/Loss
     const totalProfit = bets.reduce((sum, bet) => {
         return sum + parseFloat(calculateProfitLoss(bet));
     }, 0).toFixed(2);
-    
+
     document.getElementById("profit-loss").textContent = `€${totalProfit}`;
+
+    // Update Profit/Loss for each tipster
+    const tipsterStats = calculateTipsterStats(bets);
+    updateTipsterStats(tipsterStats);
 }
+
+function calculateTipsterStats(bets) {
+    const tipsterStats = {};
+
+    bets.forEach(bet => {
+        const tipster = bet.Tipster;
+        if (!tipsterStats[tipster]) {
+            tipsterStats[tipster] = {
+                total: 0,
+                won: 0,
+                lost: 0,
+                profit: 0
+            };
+        }
+
+        tipsterStats[tipster].total++;
+        if (bet.Result === "Won") tipsterStats[tipster].won++;
+        if (bet.Result === "Lost") tipsterStats[tipster].lost++;
+        tipsterStats[tipster].profit += parseFloat(calculateProfitLoss(bet));
+    });
+
+    return tipsterStats;
+}
+
+function updateTipsterStats(tipsterStats) {
+    const tipsterButtons = document.querySelectorAll('.sidebar button[data-filter-type="tipster"]');
+    tipsterButtons.forEach(button => {
+        const tipster = button.dataset.filterValue;
+        if (tipster === "all") return; // Skip "All" button
+
+        const stats = tipsterStats[tipster] || { total: 0, won: 0, lost: 0, profit: 0 };
+        button.innerHTML = `
+            ${tipster} 
+            <span class="tipster-stats">(€${stats.profit.toFixed(2)})</span>
+        `;
+    });
+}
+
 
 function renderBets(bets) {
     const tbody = document.getElementById("bets-list");
