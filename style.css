@@ -102,6 +102,12 @@ h2 {
     margin: 0;
 }
 
+.tipster-stats {
+    font-size: 12px;
+    color: var(--secondary);
+    margin-left: 5px;
+}
+
 /* Table */
 table {
     width: 100%;
