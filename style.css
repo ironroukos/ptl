@@ -73,6 +73,12 @@ h2 {
     align-items: center;
 }
 
+/* Keep parenthesis white */
+.sidebar button span {
+    color: white; 
+    font-weight: bold;
+}
+
 .sidebar button:hover {
     background: var(--secondary);
     transform: scale(1.05);
@@ -146,6 +152,7 @@ tr:hover {
     background: #292929;
 }
 
+/* Green & red highlights */
 .won {
     background-color: rgba(76, 175, 80, 0.2);
     color: var(--primary);
@@ -162,6 +169,11 @@ tr:hover {
     background-color: rgba(255, 193, 7, 0.2);
     color: #ffc107;
     font-weight: bold;
+}
+
+/* Ensure numbers inside parentheses remain white */
+.keep-white-parentheses {
+    color: white !important;
 }
 
 /* Total Profit/Loss Box */
@@ -186,30 +198,4 @@ tr:hover {
 
     .sidebar {
         width: 100%;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .sidebar button {
-        font-size: 16px;
-        padding: 12px;
-    }
-
-    .desktop-buttons {
-        display: none;
-    }
-
-    .mobile-dropdown {
-        display: block;
-    }
-
-    .stats {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-
-    table {
-        font-size: 14px;
-    }
-}
+        t
