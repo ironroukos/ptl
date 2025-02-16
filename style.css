@@ -63,6 +63,9 @@ h2 {
     cursor: pointer;
     transition: background 0.3s;
     font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .sidebar button:hover {
