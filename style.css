@@ -52,6 +52,7 @@ h2 {
     min-width: 160px;
 }
 
+/* Tipster Buttons */
 .sidebar button {
     width: 100%;
     padding: 10px;
@@ -68,8 +69,9 @@ h2 {
     align-items: center;
 }
 
+/* Make the number in parentheses white */
 .sidebar button span {
-    color: white; /* Makes the amount inside parentheses white */
+    color: white; /* Ensures the amount is white */
     font-weight: bold;
 }
 
@@ -152,6 +154,19 @@ tr:hover {
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
+        gap: 10px; /* Improved spacing */
+        padding: 10px;
+    }
+
+    .sidebar {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .sidebar button {
+        font-size: 16px; /* Slightly larger text for better readability */
+        padding: 12px;
     }
 
     .desktop-buttons {
@@ -160,5 +175,15 @@ tr:hover {
 
     .mobile-dropdown {
         display: block;
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    table {
+        font-size: 14px; /* Adjusts for smaller screens */
     }
 }
