@@ -5,13 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup filter buttons
     document.querySelectorAll('.sidebar button').forEach(button => {
         button.addEventListener('click', () => {
-            const filterType = button.dataset.filterType;
-            const filterValue = button.dataset.filterValue;
-            filterBets(filterType, filterValue);
+            filterBets('tipster', button.dataset.filterValue);
         });
     });
 
-    // Setup dropdown
+    // Setup dropdown filter for mobile
     document.getElementById('tipster-dropdown').addEventListener('change', function() {
         filterBets('tipster', this.value);
     });
@@ -47,25 +45,14 @@ function applyFilters() {
     updateStats(filteredBets);
 }
 
-function calculateProfitLoss(bet) {
-    if (!bet.Odds || !bet.Stake) return 0; // Handle missing values
-    if (bet.Result === "Won") return (bet.Stake * (bet.Odds - 1)).toFixed(2);
-    if (bet.Result === "Lost") return (-bet.Stake).toFixed(2);
-    return 0; // For pending bets
-}
-
 function updateStats(bets) {
-    // Update general stats
+    // Update stats
     document.getElementById("total-bets").textContent = bets.length;
     document.getElementById("won-bets").textContent = bets.filter(bet => bet.Result === "Won").length;
     document.getElementById("lost-bets").textContent = bets.filter(bet => bet.Result === "Lost").length;
 
     // Calculate total Profit/Loss
-    const totalProfit = bets.reduce((sum, bet) => {
-    return sum + (parseFloat(bet['Profit/Loss']) || 0);
-    }, 0).toFixed(2);
-
-
+    const totalProfit = bets.reduce((sum, bet) => sum + (parseFloat(bet['Profit/Loss']) || 0), 0).toFixed(2);
     document.getElementById("profit-loss").textContent = `€${totalProfit}`;
 
     // Update Profit/Loss for each tipster
@@ -79,12 +66,7 @@ function calculateTipsterStats(bets) {
     bets.forEach(bet => {
         const tipster = bet.Tipster;
         if (!tipsterStats[tipster]) {
-            tipsterStats[tipster] = {
-                total: 0,
-                won: 0,
-                lost: 0,
-                profit: 0
-            };
+            tipsterStats[tipster] = { total: 0, won: 0, lost: 0, profit: 0 };
         }
 
         tipsterStats[tipster].total++;
@@ -97,31 +79,39 @@ function calculateTipsterStats(bets) {
 }
 
 function updateTipsterStats(tipsterStats) {
-    const tipsterButtons = document.querySelectorAll('.sidebar button[data-filter-type="tipster"]');
-    tipsterButtons.forEach(button => {
+    document.querySelectorAll('.sidebar button[data-filter-type="tipster"]').forEach(button => {
         const tipster = button.dataset.filterValue;
         if (tipster === "all") return; // Skip "All" button
 
-        const stats = tipsterStats[tipster] || { total: 0, won: 0, lost: 0, profit: 0 };
-        button.innerHTML = `
-            ${tipster} 
-            <span class="tipster-stats">(€${stats.profit.toFixed(2)})</span>
-        `;
+        const stats = tipsterStats[tipster] || { profit: 0 };
+        button.innerHTML = `${tipster} <span class="tipster-stats">(€${stats.profit.toFixed(2)})</span>`;
     });
 }
 
-
 function renderBets(bets) {
     const tbody = document.getElementById("bets-list");
-    tbody.innerHTML = bets.map(bet => `
-        <tr class="${String(bet.Result || 'Pending').toLowerCase()}">
-            <td>${bet['Date & Time']}</td>
-            <td>${bet.Match}</td>
-            <td>${bet.Prediction}</td>
-            <td>${bet.Odds?.toFixed(2) || '-'}</td>
-            <td>${bet.Stake || '-'}</td>
-            <td>${bet.Result || 'Pending'}</td>
-            <td>${bet['Profit/Loss'] ? '€' + bet['Profit/Loss'] : '-'}</td>
-        </tr>
-    `).join("");
+    tbody.innerHTML = bets.map(bet => {
+        let status = ""; // Hidden column data
+
+        if (bet.Result === "Won") {
+            status = "Win";
+        } else if (bet.Result === "Lost") {
+            status = "Loss";
+        } else {
+            status = "Pending";
+        }
+
+        return `
+            <tr>
+                <td>${bet['Date & Time']}</td>
+                <td>${bet.Match}</td>
+                <td>${bet.Prediction}</td>
+                <td>${bet.Odds?.toFixed(2) || '-'}</td>
+                <td>${bet.Stake || '-'}</td>
+                <td>${bet.Result || 'Pending'}</td>
+                <td style="display: none;">${status}</td> <!-- Hidden Status Column -->
+                <td>${bet['Profit/Loss'] ? '€' + bet['Profit/Loss'] : '-'}</td>
+            </tr>
+        `;
+    }).join("");
 }
