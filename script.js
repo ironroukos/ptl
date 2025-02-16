@@ -113,7 +113,7 @@ function updateTipsterStats(tipsterStats) {
 function renderBets(bets) {
     const tbody = document.getElementById("bets-list");
     tbody.innerHTML = bets.map(bet => `
-        <tr class="${(bet.Result || 'Pending').toLowerCase()}">
+        <tr class="${String(bet.Result || 'Pending').toLowerCase()}">
             <td>${bet['Date & Time']}</td>
             <td>${bet.Match}</td>
             <td>${bet.Prediction}</td>
