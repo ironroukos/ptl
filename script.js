@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Setup dropdown
+    document.getElementById('tipster-dropdown').addEventListener('change', function() {
+        filterBets('tipster', this.value);
+    });
+
     // Load CSV data
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQhc8Xcasi8_LyoO8J1Cltv0yLzRGkYnKYk6rQhox4-dcyHgj0ZPAtY5IJ-rHtr48K80vOyyFnrkjto/pub?output=csv")
         .then(response => response.text())
@@ -42,10 +47,23 @@ function applyFilters() {
     updateStats(filteredBets);
 }
 
+function calculateProfitLoss(bet) {
+    if (!bet.Odds || !bet.Stake) return 0; // Handle missing values
+    if (bet.Result === "Won") return (bet.Stake * (bet.Odds - 1)).toFixed(2);
+    if (bet.Result === "Lost") return (-bet.Stake).toFixed(2);
+    return 0; // For pending bets
+}
+
 function updateStats(bets) {
     document.getElementById("total-bets").textContent = bets.length;
     document.getElementById("won-bets").textContent = bets.filter(bet => bet.Result === "Won").length;
     document.getElementById("lost-bets").textContent = bets.filter(bet => bet.Result === "Lost").length;
+    
+    const totalProfit = bets.reduce((sum, bet) => {
+        return sum + parseFloat(calculateProfitLoss(bet));
+    }, 0).toFixed(2);
+    
+    document.getElementById("profit-loss").textContent = `€${totalProfit}`;
 }
 
 function renderBets(bets) {
@@ -56,11 +74,9 @@ function renderBets(bets) {
             <td>${bet.Match}</td>
             <td>${bet.Prediction}</td>
             <td>${bet.Odds?.toFixed(2) || '-'}</td>
+            <td>${bet.Stake || '-'}</td>
             <td>${bet.Result || 'Pending'}</td>
+            <td>${calculateProfitLoss(bet) !== 0 ? '€' + calculateProfitLoss(bet) : '-'}</td>
         </tr>
     `).join("");
 }
-document.getElementById('tipster-dropdown').addEventListener('change', function() {
-    const selectedTipster = this.value;
-    filterBets('tipster', selectedTipster);
-});
