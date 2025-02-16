@@ -15,7 +15,6 @@
 
     <div class="container">
         <aside class="sidebar">
-            <!-- Mobile Dropdown -->
             <div class="mobile-dropdown">
                 <select id="tipster-dropdown">
                     <option value="all">All</option>
@@ -25,8 +24,6 @@
                     <option value="Egyptian">Egyptian</option>
                 </select>
             </div>
-
-            <!-- Desktop Buttons -->
             <div class="desktop-buttons">
                 <button data-filter-type="tipster" data-filter-value="all">All</button>
                 <button data-filter-type="tipster" data-filter-value="CEO Picks">CEO Picks</button>
@@ -44,19 +41,19 @@
                 <p>Profit/Loss: <span id="profit-loss">€0.00</span></p>
             </div>
 
-            <table>
+            <table role="table">
                 <thead>
-                    <tr>
-                        <th>Date & Time</th>
-                        <th>Match</th>
-                        <th>Prediction</th>
-                        <th>Odds</th>
-                        <th>Stake</th>
-                        <th>Result</th>
-                        <th>+/-</th>
+                    <tr role="row">
+                        <th role="columnheader">Date & Time</th>
+                        <th role="columnheader">Match</th>
+                        <th role="columnheader">Prediction</th>
+                        <th role="columnheader">Odds</th>
+                        <th role="columnheader">Stake</th>
+                        <th role="columnheader">Result</th>
+                        <th role="columnheader">+/-</th>
                     </tr>
                 </thead>
-                <tbody id="bets-list"></tbody>
+                <tbody id="bets-list" role="rowgroup"></tbody>
             </table>
         </main>
     </div>
