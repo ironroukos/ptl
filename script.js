@@ -52,21 +52,20 @@ function applyFilters() {
 
 function renderBets(bets) {
     const tbody = document.getElementById("bets-list");
-    tbody.innerHTML = bets
-        .map((bet) => {
-            let rowClass = bet.Status === "Won" ? "won" : bet.Status === "Lost" ? "lost" : "pending";
-            return `
-                <tr class="${rowClass}">
-                    <td>${bet["Date & Time"]}</td>
-                    <td>${bet.Match}</td>
-                    <td>${bet.Prediction}</td>
-                    <td>${bet.Odds?.toFixed(2) || "-"}</td>
-                    <td>${bet.Stake || "-"}</td>
-                    <td>${bet["Profit/Loss"] ? "€" + bet["Profit/Loss"] : "-"}</td>
-                </tr>
-            `;
-        })
-        .join("");
+    tbody.innerHTML = bets.map(bet => {
+        let rowClass = bet.Result === "Won" ? "won" : bet.Result === "Lost" ? "lost" : "pending";
+        return `
+            <tr class="${rowClass}">
+                <td>${bet['Date & Time']}</td>
+                <td>${bet.Match}</td>
+                <td>${bet.Prediction}</td>
+                <td>${bet.Odds?.toFixed(2) || '-'}</td>
+                <td>${bet.Stake || '-'}</td>
+                <td>${bet.Result || '-'}</td> 
+                <td>${bet['Profit/Loss'] ? '€' + bet['Profit/Loss'] : '-'}</td>
+            </tr>
+        `;
+    }).join("");
 }
 
 function updateStats(bets) {
