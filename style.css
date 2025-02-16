@@ -68,6 +68,11 @@ h2 {
     align-items: center;
 }
 
+.sidebar button span {
+    color: white; /* Makes the amount inside parentheses white */
+    font-weight: bold;
+}
+
 .sidebar button:hover {
     background: var(--secondary);
 }
