@@ -62,8 +62,9 @@ function updateStats(bets) {
 
     // Calculate total Profit/Loss
     const totalProfit = bets.reduce((sum, bet) => {
-        return sum + parseFloat(calculateProfitLoss(bet));
+    return sum + (parseFloat(bet['Profit/Loss']) || 0);
     }, 0).toFixed(2);
+
 
     document.getElementById("profit-loss").textContent = `€${totalProfit}`;
 
@@ -89,7 +90,7 @@ function calculateTipsterStats(bets) {
         tipsterStats[tipster].total++;
         if (bet.Result === "Won") tipsterStats[tipster].won++;
         if (bet.Result === "Lost") tipsterStats[tipster].lost++;
-        tipsterStats[tipster].profit += parseFloat(calculateProfitLoss(bet));
+        tipsterStats[tipster].profit += parseFloat(bet['Profit/Loss']) || 0;
     });
 
     return tipsterStats;
@@ -120,7 +121,7 @@ function renderBets(bets) {
             <td>${bet.Odds?.toFixed(2) || '-'}</td>
             <td>${bet.Stake || '-'}</td>
             <td>${bet.Result || 'Pending'}</td>
-            <td>${calculateProfitLoss(bet) !== 0 ? '€' + calculateProfitLoss(bet) : '-'}</td>
+            <td>${bet['Profit/Loss'] ? '€' + bet['Profit/Loss'] : '-'}</td>
         </tr>
     `).join("");
 }
