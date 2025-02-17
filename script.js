@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhc8Xcasi8_LyoO8J1Cltv0yLzRGkYnKYk6rQhox4-dcyHgj0ZPAtY5IJ-rHtr48K80vOyyFnrkjto/pub?output=csv";
     let allBets = [];
 
-    // Function to normalize date format (assumes manually entered dates)
+    // ✅ Normalize manually entered "Date & Time"
     function formatDate(dateString) {
-        if (!dateString) return "-";
+        if (!dateString) return "-"; 
         return dateString.replace(/(\d{2})\/(\d{2})/, "20$2-$1"); // Converts "17/02" to "2024-02-17"
     }
 
@@ -12,49 +12,55 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(csvUrl)
             .then(response => response.text())
             .then(csvData => {
+                console.log("✅ Raw CSV Data:", csvData); // Debugging Step 1
                 Papa.parse(csvData, {
                     header: true,
                     skipEmptyLines: true,
                     complete: function (results) {
-                        console.log("Parsed CSV Data:", results.data);
-                        console.log("Parsed CSV Headers:", Object.keys(results.data[0])); 
+                        console.log("✅ Parsed CSV Data:", results.data); // Debugging Step 2
+                        console.log("✅ Parsed CSV Headers:", Object.keys(results.data[0])); // Debugging Step 3
 
-                        // Ensure correct column names and filter empty Date & Time values
+                        // Ensure correct column names and filter out invalid rows
                         allBets = results.data.filter(bet => bet["Date & Time"] && bet["Date & Time"].trim() !== "");
 
-                        renderBets(allBets);
+                        applyFilters(); // Apply filters to display bets
                     },
                     error: function (error) {
-                        console.error("CSV Parse Error:", error);
+                        console.error("❌ CSV Parse Error:", error);
                     }
                 });
             })
-            .catch(error => console.error("Fetch Error:", error));
+            .catch(error => console.error("❌ Fetch Error:", error));
+    }
+
+    function applyFilters() {
+        console.log("📊 Applying Filters, All Bets:", allBets); // Debugging Step
+        renderBets(allBets);
+        updateStats(allBets);
     }
 
     function renderBets(bets) {
+        console.log("📝 Rendering Bets:", bets); // Debugging Step
+
         const tbody = document.getElementById("bets-list");
         if (!tbody) {
-            console.error("Table body #bets-list not found!");
+            console.error("❌ Table body #bets-list not found!");
             return;
         }
 
-        tbody.innerHTML = bets.map(bet => {
-            let rowClass = bet.Status === "Won" ? "won" : bet.Status === "Lost" ? "lost" : "pending";
-            return `
-                <tr class="${rowClass}">
-                    <td>${formatDate(bet["Date & Time"])}</td>
-                    <td>${bet.Match || "-"}</td>
-                    <td>${bet.Prediction || "-"}</td>
-                    <td>${bet.Odds ? parseFloat(bet.Odds).toFixed(2) : "-"}</td>
-                    <td>${bet.Stake || "-"}</td>
-                    <td>${bet.Result || "-"}</td>
-                    <td>${bet["Profit/Loss"] ? '€' + bet["Profit/Loss"] : "-"}</td>
-                </tr>
-            `;
-        }).join("");
+        tbody.innerHTML = bets.map(bet => `
+            <tr class="${bet.Status === "Won" ? "won" : bet.Status === "Lost" ? "lost" : "pending"}">
+                <td>${formatDate(bet["Date & Time"])}</td>
+                <td>${bet.Match || "-"}</td>
+                <td>${bet.Prediction || "-"}</td>
+                <td>${bet.Odds ? parseFloat(bet.Odds).toFixed(2) : "-"}</td>
+                <td>${bet.Stake || "-"}</td>
+                <td>${bet.Result || "-"}</td>
+                <td>${bet["Profit/Loss"] ? '€' + bet["Profit/Loss"] : "-"}</td>
+            </tr>
+        `).join("");
 
-        updateStats(bets);
+        console.log("✅ Table Updated!");
     }
 
     function updateStats(bets) {
@@ -69,5 +75,5 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("profit-loss").textContent = `€${profitLoss.toFixed(2)}`;
     }
 
-    fetchData();
+    fetchData(); // Load data on page load
 });
