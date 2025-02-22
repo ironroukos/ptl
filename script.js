@@ -88,6 +88,7 @@ function renderBets(bets) {
             return `
                 <tr class="${rowClass}">
                     <td>${bet["Date & Time"]}</td>
+                    <td>${bet.Tipster || "-"}</td>
                     <td>${bet.Match || "-"}</td>
                     <td>${bet.Prediction || "-"}</td>
                     <td>${bet.Odds ? parseFloat(bet.Odds).toFixed(2) : "-"}</td>
