@@ -150,8 +150,8 @@ th {
     font-weight: bold;
 }
 
-tr th:nth-child(7),
-tr td:nth-child(7) {
+tr th:nth-child(8),
+tr td:nth-child(8) {
     display: none;
     background: #1a1a1a;
 }
@@ -160,8 +160,19 @@ tr:hover {
     background: #292929;
 }
 
-/* Removed colors for win, lose, and pending */
-.won, .lost, .pending {
+.won {
+    background: #d4edda !important; /* Light green */
+    color: #155724 !important; /* Dark green text */
+    font-weight: bold !important;
+}
+
+.lost {
+    background: #f8d7da !important; /* Light red */
+    color: #721c24 !important; /* Dark red text */
+    font-weight: bold !important;
+}
+
+.pending {
     background: transparent !important;
     color: var(--text-light) !important;
     font-weight: normal !important;
