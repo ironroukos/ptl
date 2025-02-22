@@ -35,17 +35,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
                     // ✅ Ensure column names exist
-                    if (!results.data[0]["Date & Time"] || !results.data[0]["Match"]) {
+                    if (!results.data[0]["Date"] || !results.data[0]["Match"]) {
                         console.error("❌ Column names do not match expected structure!");
                         return;
                     }
 
                     // ✅ Ensure only bets with a valid Date are included
-                    allBets = results.data.filter(bet => bet["Date & Time"] && bet["Date & Time"].trim() !== "");
+                    allBets = results.data.filter(bet => bet["Date"] && bet["Date"].trim() !== "");
                     console.log("📊 Filtered Bets After Removing Empty Dates:", allBets);
 
                     // ✅ Sort by Date
-                    allBets.sort((a, b) => Date.parse(b["Date & Time"]) - Date.parse(a["Date & Time"]));
+                    allBets.sort((a, b) => Date.parse(b["Date"]) - Date.parse(a["Date"]));
 
                     calculateTipsterStats();
                     applyFilters();
@@ -87,7 +87,7 @@ function renderBets(bets) {
             let rowClass = bet.Status === "Won" ? "won" : bet.Status === "Lost" ? "lost" : "pending";
             return `
                 <tr class="${rowClass}">
-                    <td>${bet["Date & Time"]}</td>
+                    <td>${bet["Date"]}</td>
                     <td>${bet.Tipster || "-"}</td>
                     <td>${bet.Match || "-"}</td>
                     <td>${bet.Prediction || "-"}</td>
