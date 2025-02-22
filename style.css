@@ -161,22 +161,23 @@ tr:hover {
 }
 
 .won {
-    background: #d4edda !important; /* Light green */
-    color: #155724 !important; /* Dark green text */
+    background: #2d3e2d !important; /* Dark greenish-gray */
+    color: #a3e6a3 !important; /* Light green text */
     font-weight: bold !important;
 }
 
 .lost {
-    background: #f8d7da !important; /* Light red */
-    color: #721c24 !important; /* Dark red text */
+    background: #3e2d2d !important; /* Dark reddish-gray */
+    color: #f5a3a3 !important; /* Light red text */
     font-weight: bold !important;
 }
 
 .pending {
-    background: transparent !important;
+    background: #2d2d2d !important; /* Dark gray */
     color: var(--text-light) !important;
     font-weight: normal !important;
 }
+
 
 /* Ensure numbers inside parentheses remain white */
 .keep-white-parentheses {
