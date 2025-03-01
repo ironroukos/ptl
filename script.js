@@ -45,7 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log("📊 Filtered Bets After Removing Empty Dates:", allBets);
 
                     // ✅ Sort by Date
-                    allBets.sort((a, b) => Date.parse(b["Date"]) - Date.parse(a["Date"]));
+                    allBets.sort((a, b) => {
+    let dateA = new Date(a["Date"] + " " + (a["Time"] || "00:00"));
+    let dateB = new Date(b["Date"] + " " + (b["Time"] || "00:00"));
+    return dateB - dateA; // Sort by newest date first, then by latest time
+});
 
                     calculateTipsterStats();
                     applyFilters();
