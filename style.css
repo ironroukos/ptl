@@ -156,8 +156,8 @@ tr td:nth-child(2) {
     background: #1a1a1a;
 }
 
-tr th:nth-child(6),
-tr td:nth-child(6) {
+tr th:nth-child(8),
+tr td:nth-child(8) {
     display: none;
     background: #1a1a1a;
 }
