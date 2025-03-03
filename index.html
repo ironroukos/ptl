@@ -13,26 +13,6 @@
     </header>
 
     <div class="container">
-        <aside class="sidebar">
-            <div class="mobile-dropdown">
-                <select id="tipster-dropdown">
-                    <option value="ironroukos">ironroukos</option>
-                    <option value="spoik">spoik</option>
-                    <option value="accountant13">accountant13</option>
-                    <option value="nikosk952">nikosk952</option>
-                    <option value="theteacher">theteacher</option>
-                </select>
-            </div>
-            
-            <div class="desktop-buttons">
-                <button data-filter-type="tipster" data-filter-value="ironroukos">ironroukos</button>
-                <button data-filter-type="tipster" data-filter-value="spoik">spoik</button>
-                <button data-filter-type="tipster" data-filter-value="accountant13">accountant13</button>
-                <button data-filter-type="tipster" data-filter-value="nikosk952">nikosk952</button>
-                <button data-filter-type="tipster" data-filter-value="theteacher">theteacher</button>
-            </div>
-        </aside>
-
         <main class="content">
             <div class="stats">
                 <p>Total Bets: <span id="total-bets">0</span></p>
@@ -41,17 +21,7 @@
                 <p>Profit/Loss: <span id="profit-loss">€0.00</span></p>
             </div>
 
-            <table role="table">
-                <thead>
-                    <tr role="row">
-                        <th role="columnheader">Date</th>
-                        <th role="columnheader">Match</th>
-                        <th role="columnheader">Prediction</th>
-                        <th role="columnheader">Odds</th>
-                    </tr>
-                </thead>
-                <tbody id="bets-list" role="rowgroup"></tbody>
-            </table>
+            <div id="leaderboard"></div> <!-- Leaderboard container -->
         </main>
     </div>
 
