@@ -20,33 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 });
 
-// Function to parse different date formats manually
+allBets.sort((a, b) => parseCustomDate(b["Date"]) - parseCustomDate(a["Date"]));
+
 function parseCustomDate(dateStr) {
-    const datePatterns = [
-        /(\d{2})\/(\d{2})\/(\d{4})/, // DD/MM/YYYY
-        /(\d{1,2})-(\d{1,2})-(\d{4})/, // D-M-YYYY or DD-MM-YYYY
-        /(\d{1,2})\s([A-Za-z]+)\s(\d{4})/ // D Month YYYY (e.g., 1 March 2024)
-    ];
+    if (!dateStr) return 0; // Handle empty values
+    const dateRegex = /(\d{1,2})\/(\d{1,2}) (\d{1,2}):(\d{2})/;
+    const match = dateStr.match(dateRegex);
 
-    for (let pattern of datePatterns) {
-        const match = dateStr.match(pattern);
-        if (match) {
-            let day, month, year;
+    if (!match) return 0; // Skip invalid dates
 
-            if (pattern === datePatterns[0] || pattern === datePatterns[1]) {
-                day = parseInt(match[1], 10);
-                month = parseInt(match[2], 10) - 1;
-                year = parseInt(match[3], 10);
-            } else if (pattern === datePatterns[2]) {
-                day = parseInt(match[1], 10);
-                month = new Date(`${match[2]} 1, 2024`).getMonth();
-                year = parseInt(match[3], 10);
-            }
-
-            return new Date(year, month, day);
-        }
-    }
-    return null; // Return null if no valid format is found
+    const [, day, month, hour, minute] = match.map(Number);
+    const currentYear = new Date().getFullYear(); // Assume current year
+    return new Date(currentYear, month - 1, day, hour, minute).getTime();
 }
 
 function calculateTipsterStats() {
