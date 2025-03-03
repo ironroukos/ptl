@@ -88,7 +88,6 @@ function renderBets(bets) {
             return `
                 <tr class="${rowClass}">
                     <td>${bet["Date"]}</td>
-                    <td>${bet.Tipster || "-"}</td>
                     <td>${bet.Match || "-"}</td>
                     <td>${bet.Prediction || "-"}</td>
                     <td>${bet.Odds ? parseFloat(bet.Odds).toFixed(2) : "-"}</td>
@@ -107,8 +106,8 @@ function updateStats(bets) {
     console.log("📊 Updating Stats for Bets:", bets.length);
 
     document.getElementById("total-bets").textContent = bets.length;
-    document.getElementById("won-bets").textContent = bets.filter((bet) => bet.Status === "Won").length;
-    document.getElementById("lost-bets").textContent = bets.filter((bet) => bet.Status === "Lost").length;
+    document.getElementById("won-bets").textContent = bets.filter((bet) => bet.Result === "Won").length;
+    document.getElementById("lost-bets").textContent = bets.filter((bet) => bet.Result === "Lost").length;
     
     const totalProfit = bets.reduce((sum, bet) => sum + (parseFloat(bet["Profit/Loss"]) || 0), 0).toFixed(2);
     document.getElementById("profit-loss").textContent = `€${totalProfit}`;
