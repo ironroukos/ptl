@@ -1,17 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
 
 :root {
-    --primary: #4caf50;
-    --secondary: #2e7d32;
-    --bg-dark: #121212;
-    --bg-light-dark: #1e1e1e;
-    --border: #333;
-    --text-light: #ffffff;
-    --text-muted: #b0b0b0;
-    --won: #2d3e2d;
-    --lost: #3e2d2d;
-    --text-won: #a3e6a3;
-    --text-lost: #f5a3a3;
+    --primary: #4caf50; /* Green for highlights */
+    --secondary: #2e7d32; /* Darker green */
+    --bg-dark: #121212; /* Dark background */
+    --bg-light-dark: #1e1e1e; /* Slightly lighter background */
+    --border: #333; /* Dark gray borders */
+    --text-light: #ffffff; /* White text */
+    --text-muted: #b0b0b0; /* Muted gray text */
 }
 
 body {
@@ -27,7 +23,7 @@ header {
     padding: 20px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    max-width: 1200px;
+    max-width: 1200px; /* Ensuring it aligns with table */
     margin: 0 auto;
     width: 100%;
 }
@@ -39,6 +35,14 @@ h1 {
     margin: 0;
 }
 
+h2 {
+    color: var(--secondary);
+    font-size: 18px;
+    font-weight: normal;
+    margin-top: 5px;
+}
+
+/* Layout */
 .container {
     display: flex;
     max-width: 1200px;
@@ -47,21 +51,22 @@ h1 {
     gap: 20px;
 }
 
+/* Sidebar */
 .sidebar {
     background: var(--bg-light-dark);
     padding: 15px;
     border-radius: 12px;
-    min-width: 180px;
-    flex-shrink: 0;
+    min-width: 160px;
 }
 
+/* Tipster Buttons */
 .sidebar button {
     width: 100%;
     padding: 10px;
     margin: 6px 0;
-    background: var(--bg-light-dark);
+    background: var(--primary);
     color: white;
-    border: 1px solid var(--border);
+    border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
@@ -71,33 +76,25 @@ h1 {
     align-items: center;
 }
 
-.sidebar button:hover, .sidebar button.active {
-    background: var(--primary);
-    transform: scale(1.02);
+/* Keep parenthesis white */
+.sidebar button span {
+    color: white; 
+    font-weight: bold;
 }
 
-.sidebar button .profit-positive {
-    color: var(--text-won);
+.sidebar button:hover {
+    background: var(--secondary);
+    transform: scale(1.05);
 }
 
-.sidebar button .profit-negative {
-    color: var(--text-lost);
-}
-
-.sidebar button:hover .profit-positive, 
-.sidebar button:hover .profit-negative,
-.sidebar button.active .profit-positive,
-.sidebar button.active .profit-negative {
-    color: white;
-}
-
+/* Dropdown */
 .mobile-dropdown {
     display: none;
 }
 
 #tipster-dropdown {
     width: 100%;
-    padding: 10px;
+    padding: 8px;
     font-size: 16px;
     border-radius: 8px;
     border: 1px solid var(--primary);
@@ -105,10 +102,7 @@ h1 {
     color: var(--text-light);
 }
 
-.content {
-    flex-grow: 1;
-}
-
+/* Stats */
 .stats {
     display: flex;
     justify-content: space-around;
@@ -116,23 +110,25 @@ h1 {
     padding: 20px;
     border-radius: 12px;
     margin-bottom: 20px;
-    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .stats p {
     font-size: 18px;
-    margin: 10px 15px;
-    text-align: center;
-}
-
-.stats p span {
-    display: block;
-    font-size: 28px;
     font-weight: bold;
     color: var(--primary);
-    margin-top: 5px;
+    margin: 0;
 }
 
+.tipster-stats {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-left: 5px;
+}
+
+/* Table */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -154,29 +150,57 @@ th {
     font-weight: bold;
 }
 
-.won {
-    background: var(--won) !important;
-    color: var(--text-won) !important;
-    font-weight: bold !important;
+tr th:nth-child(7),
+tr td:nth-child(7) {
+    display: none;
+    background: #1a1a1a;
 }
 
-.lost {
-    background: var(--lost) !important;
-    color: var(--text-lost) !important;
-    font-weight: bold !important;
+tr:hover {
+    background: #292929;
 }
 
-.no-results {
-    padding: 30px;
+/* Removed colors for win, lose, and pending */
+.won, .lost, .pending {
+    background: transparent !important;
+    color: var(--text-light) !important;
+    font-weight: normal !important;
+}
+
+/* Ensure numbers inside parentheses remain white */
+.keep-white-parentheses {
+    color: white !important;
+}
+
+/* Total Profit/Loss Box */
+.total-box {
+    background-color: var(--bg-light-dark);
+    color: var(--text-light);
+    padding: 10px;
+    border-radius: 5px;
     text-align: center;
-    color: var(--text-muted);
-    font-style: italic;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
+/* Mobile Styles */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
+        gap: 10px;
         padding: 10px;
+    }
+
+    .sidebar {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .sidebar button {
+        font-size: 16px;
+        padding: 12px;
     }
 
     .desktop-buttons {
@@ -186,17 +210,23 @@ th {
     .mobile-dropdown {
         display: block;
     }
-    
+
     .stats {
         flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        width: 100%;
+        max-width: 100%;
+        padding: 15px;
     }
-    
-    .stats p {
-        margin: 5px 0;
+
+    header {
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
     }
-    
-    th, td {
-        padding: 8px 5px;
+
+    table {
         font-size: 14px;
     }
 }
