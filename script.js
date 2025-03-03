@@ -34,15 +34,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     // Sort by date (newest first)
                     allBets.sort((a, b) => {
-                        const dateA = new Date(formatDate(a.Date));
-                        const dateB = new Date(formatDate(b.Date));
+                        const dateA = new Date(parseDate(a.Date));
+                        const dateB = new Date(parseDate(b.Date));
                         return dateB - dateA;
                     });
                     
                     // Initialize the page
                     calculateTipsterStats();
-                    populateTipsterDropdown();
                     populateTipsterButtons();
+                    populateLeaderboard();
                     applyFilters();
                 },
                 error: error => {
@@ -60,17 +60,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Helper function to format dates consistently
-function formatDate(dateStr) {
+// Helper function to parse dates properly
+function parseDate(dateStr) {
+    if (!dateStr) return new Date();
+    
     // Handle European format DD/MM/YYYY or DD/MM/YY
-    if (/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(dateStr)) {
-        const [day, month, year] = dateStr.split('/');
-        return `${month}/${day}/${year.length === 2 ? '20' + year : year}`;
+    if (typeof dateStr === 'string') {
+        if (dateStr.includes('/')) {
+            const [day, month, year] = dateStr.split('/');
+            return new Date(`${month}/${day}/${year.length === 2 ? '20' + year : year}`);
+        } 
+        // Handle European format DD-MM-YYYY or DD-MM-YY
+        else if (dateStr.includes('-')) {
+            const [day, month, year] = dateStr.split('-');
+            return new Date(`${month}/${day}/${year.length === 2 ? '20' + year : year}`);
+        }
     }
-    // Handle European format DD-MM-YYYY or DD-MM-YY
-    else if (/^\d{1,2}-\d{1,2}-\d{2,4}$/.test(dateStr)) {
-        const [day, month, year] = dateStr.split('-');
-        return `${month}/${day}/${year.length === 2 ? '20' + year : year}`;
+    return new Date(dateStr);
+}
+
+// Helper function to format dates for display
+function formatDate(dateStr) {
+    if (!dateStr) return "N/A";
+    
+    // Handle European format DD/MM/YYYY or DD/MM/YY
+    if (typeof dateStr === 'string') {
+        if (dateStr.includes('/')) {
+            const parts = dateStr.split(' ');
+            return parts[0]; // Just return the date part
+        } 
+        // Handle European format DD-MM-YYYY or DD-MM-YY
+        else if (dateStr.includes('-')) {
+            const parts = dateStr.split(' ');
+            return parts[0].replace(/-/g, '/'); // Convert to DD/MM/YYYY format
+        }
     }
     return dateStr;
 }
@@ -113,32 +136,19 @@ function renderBets(bets) {
     
     tbody.innerHTML = bets.map(bet => {
         // Format the date
-        let displayDate = bet.Date;
-        if (typeof bet.Date === 'string') {
-            // Try to format to DD/MM/YYYY HH:MM if it includes time
-            try {
-                if (bet.Date.includes(':')) {
-                    const parts = bet.Date.split(' ');
-                    const datePart = parts[0];
-                    const timePart = parts[1] || '';
-                    
-                    if (datePart.includes('/')) {
-                        const [day, month, year] = datePart.split('/');
-                        displayDate = `${day}/${month}/${year} ${timePart}`;
-                    } else if (datePart.includes('-')) {
-                        const [day, month, year] = datePart.split('-');
-                        displayDate = `${day}/${month}/${year} ${timePart}`;
-                    }
-                }
-            } catch (e) {
-                console.log("Error formatting date:", e);
-                displayDate = bet.Date;
+        let displayDate = formatDate(bet.Date);
+        
+        // Format the time if it exists
+        if (typeof bet.Date === 'string' && bet.Date.includes(':')) {
+            const timePart = bet.Date.split(' ')[1];
+            if (timePart) {
+                displayDate += ` ${timePart}`;
             }
         }
         
         return `
             <tr class="${bet.Result && bet.Result.toLowerCase() === "won" ? "won" : "lost"}">
-                <td>${displayDate || "N/A"}</td>
+                <td>${displayDate}</td>
                 <td>${bet.Match || "N/A"}</td>
                 <td>${bet.Prediction || "N/A"}</td>
                 <td>${bet.Odds || "N/A"}</td>
@@ -173,11 +183,24 @@ function calculateTipsterStats() {
         const profitLoss = parseFloat(bet["Profit/Loss"]);
         
         if (!tipsterStats[tipster]) {
-            tipsterStats[tipster] = 0;
+            tipsterStats[tipster] = {
+                profit: 0,
+                totalBets: 0,
+                wonBets: 0,
+                lostBets: 0
+            };
+        }
+        
+        tipsterStats[tipster].totalBets++;
+        
+        if (bet.Result && bet.Result.toLowerCase() === "won") {
+            tipsterStats[tipster].wonBets++;
+        } else if (bet.Result && bet.Result.toLowerCase() === "lost") {
+            tipsterStats[tipster].lostBets++;
         }
         
         if (!isNaN(profitLoss)) {
-            tipsterStats[tipster] += profitLoss;
+            tipsterStats[tipster].profit += profitLoss;
             tipsterStats["all"] += profitLoss;
         }
     });
@@ -185,28 +208,84 @@ function calculateTipsterStats() {
     console.log("Tipster stats:", tipsterStats);
 }
 
-function populateTipsterDropdown() {
-    const dropdown = document.getElementById("tipster-dropdown");
-    const tipsters = ["all", ...new Set(allBets.map(bet => bet.Tipster).filter(Boolean))];
-    
-    dropdown.innerHTML = tipsters.map(tipster => 
-        `<option value="${tipster}">${tipster === "all" ? "All Tipsters" : tipster}</option>`
-    ).join("");
-}
-
 function populateTipsterButtons() {
+    const dropdown = document.getElementById("tipster-dropdown");
     const buttonsContainer = document.querySelector(".desktop-buttons");
     const tipsters = ["all", ...new Set(allBets.map(bet => bet.Tipster).filter(Boolean))];
     
+    // Populate dropdown
+    dropdown.innerHTML = tipsters.map(tipster => 
+        `<option value="${tipster}">${tipster === "all" ? "All Tipsters" : tipster}</option>`
+    ).join("");
+    
+    // Populate buttons
     buttonsContainer.innerHTML = tipsters.map(tipster => {
-        const profit = tipsterStats[tipster] || 0;
+        const stats = tipsterStats[tipster] || { profit: 0 };
+        const profit = stats.profit || 0;
         const profitClass = profit >= 0 ? "profit-positive" : "profit-negative";
+        const displayName = tipster === "all" ? "All Tipsters" : tipster;
         
         return `
             <button data-value="${tipster}" class="${tipster === 'all' ? 'active' : ''}" onclick="filterBets('tipster', '${tipster}')">
-                <span>${tipster === "all" ? "All Tipsters" : tipster}</span>
+                <span>${displayName}</span>
                 <span class="${profitClass}">${profit >= 0 ? '+' : ''}€${profit.toFixed(2)}</span>
             </button>
         `;
     }).join("");
+}
+
+function populateLeaderboard() {
+    // Create leaderboard section if it doesn't exist
+    if (!document.querySelector('.leaderboard')) {
+        const container = document.querySelector('.container');
+        const leaderboardHTML = `
+            <div class="leaderboard">
+                <h2>Tipster Leaderboard</h2>
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Tipster</th>
+                            <th>Profit/Loss</th>
+                            <th>Win Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body"></tbody>
+                </table>
+            </div>
+        `;
+        
+        // Insert leaderboard after the main content
+        const mainContent = document.querySelector('.content');
+        mainContent.insertAdjacentHTML('afterend', leaderboardHTML);
+    }
+    
+    // Get all tipsters except 'all'
+    const tipsters = Object.keys(tipsterStats).filter(t => t !== 'all');
+    
+    // Sort tipsters by profit (descending)
+    tipsters.sort((a, b) => {
+        return tipsterStats[b].profit - tipsterStats[a].profit;
+    });
+    
+    // Populate leaderboard
+    const leaderboardBody = document.getElementById('leaderboard-body');
+    leaderboardBody.innerHTML = tipsters.map((tipster, index) => {
+        const stats = tipsterStats[tipster];
+        const profit = stats.profit;
+        const profitClass = profit >= 0 ? "profit-positive" : "profit-negative";
+        
+        // Calculate win rate
+        const winRate = stats.totalBets > 0 ? 
+            ((stats.wonBets / stats.totalBets) * 100).toFixed(1) : 0;
+        
+        return `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${tipster}</td>
+                <td class="${profitClass}">${profit >= 0 ? '+' : ''}€${profit.toFixed(2)}</td>
+                <td>${winRate}% (${stats.wonBets}/${stats.totalBets})</td>
+            </tr>
+        `;
+    }).join('');
 }
