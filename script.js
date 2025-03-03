@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function calculateTipsterStats() {
     tipsterStats = {};
-    
+
     allBets.forEach(bet => {
         if (!tipsterStats[bet.Tipster]) {
             tipsterStats[bet.Tipster] = { profitLoss: 0, bets: [] };
@@ -40,33 +40,37 @@ function displayLeaderboard() {
         .sort((a, b) => b[1].profitLoss - a[1].profitLoss);
 
     sortedTipsters.forEach(([tipster, stats]) => {
-        const li = document.createElement("li");
-        li.textContent = `${tipster} (€${stats.profitLoss.toFixed(2)})`;
-        li.addEventListener("click", () => toggleTipsterHistory(tipster));
-        leaderboard.appendChild(li);
+        const tipsterContainer = document.createElement("div");
+        tipsterContainer.className = "tipster-container";
+
+        const tipsterButton = document.createElement("button");
+        tipsterButton.className = "tipster-button";
+        tipsterButton.textContent = `${tipster} (€${stats.profitLoss.toFixed(2)})`;
+
+        const picksContainer = document.createElement("div");
+        picksContainer.className = "tipster-picks";
+        picksContainer.style.display = "none";
+
+        stats.bets.forEach(bet => {
+            let rowClass = bet.Result === "Won" ? "won" : bet.Result === "Lost" ? "lost" : "pending";
+            const betItem = document.createElement("div");
+            betItem.className = `pick-item ${rowClass}`;
+            betItem.innerHTML = `
+                <strong>${bet.Date}</strong> - ${bet.Match || "-"} 
+                <span style="color: yellow;">${bet.Prediction || "-"}</span> 
+                (Odds: <strong>${bet.Odds ? parseFloat(bet.Odds).toFixed(2) : "-"}</strong>)
+            `;
+            picksContainer.appendChild(betItem);
+        });
+
+        tipsterButton.addEventListener("click", () => {
+            const isExpanded = picksContainer.style.display === "block";
+            document.querySelectorAll(".tipster-picks").forEach(p => p.style.display = "none");
+            picksContainer.style.display = isExpanded ? "none" : "block";
+        });
+
+        tipsterContainer.appendChild(tipsterButton);
+        tipsterContainer.appendChild(picksContainer);
+        leaderboard.appendChild(tipsterContainer);
     });
-}
-
-function toggleTipsterHistory(tipster) {
-    if (activeTipster === tipster) {
-        activeTipster = null;
-        renderBets([]);
-    } else {
-        activeTipster = tipster;
-        renderBets(tipsterStats[tipster].bets);
-    }
-}
-
-function renderBets(bets) {
-    const tbody = document.getElementById("bets-list");
-    tbody.innerHTML = bets.map(bet => {
-        let rowClass = bet.Result === "Won" ? "won" : bet.Result === "Lost" ? "lost" : "pending";
-        return `
-            <tr class="${rowClass}">
-                <td>${bet.Date}</td>
-                <td>${bet.Match || "-"}</td>
-                <td>${bet.Prediction || "-"}</td>
-                <td>${bet.Odds ? parseFloat(bet.Odds).toFixed(2) : "-"}</td>
-            </tr>`;
-    }).join("");
 }
