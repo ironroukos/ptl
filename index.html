@@ -15,9 +15,22 @@
     <div class="container">
         <aside class="sidebar">
             <div class="mobile-dropdown">
-                <select id="tipster-dropdown"></select>
+                <select id="tipster-dropdown">
+                    <option value="ironroukos">ironroukos</option>
+                    <option value="spoik">spoik</option>
+                    <option value="accountant13">accountant13</option>
+                    <option value="nikosk952">nikosk952</option>
+                    <option value="theteacher">theteacher</option>
+                </select>
             </div>
-            <div class="desktop-buttons" id="tipster-buttons"></div>
+            
+            <div class="desktop-buttons">
+                <button data-filter-type="tipster" data-filter-value="ironroukos">ironroukos</button>
+                <button data-filter-type="tipster" data-filter-value="spoik">spoik</button>
+                <button data-filter-type="tipster" data-filter-value="accountant13">accountant13</button>
+                <button data-filter-type="tipster" data-filter-value="nikosk952">nikosk952</button>
+                <button data-filter-type="tipster" data-filter-value="theteacher">theteacher</button>
+            </div>
         </aside>
 
         <main class="content">
@@ -26,19 +39,6 @@
                 <p>Won: <span id="won-bets">0</span></p>
                 <p>Lost: <span id="lost-bets">0</span></p>
                 <p>Profit/Loss: <span id="profit-loss">€0.00</span></p>
-            </div>
-
-            <div class="leaderboard">
-                <h2>Leaderboard</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tipster</th>
-                            <th>Profit/Loss</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard-body"></tbody>
-                </table>
             </div>
 
             <table role="table">
