@@ -21,8 +21,19 @@
                 <p>Profit/Loss: <span id="profit-loss">€0.00</span></p>
             </div>
 
-            <div id="leaderboard"></div> <!-- Leaderboard container -->
-        </main>
+     <div class="leaderboard">
+        <h2>Leaderboard</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipster</th>
+                        <th>Profit/Loss</th>
+                    </tr>
+                </thead>
+                    <tbody id="leaderboard-body">
+            <!-- Tipsters will be inserted here dynamically -->
+                    </tbody>
+            </table>
     </div>
 
     <script src="script.js"></script>
