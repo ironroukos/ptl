@@ -154,11 +154,23 @@ tr:hover {
     background: #292929;
 }
 
-/* Removed colors for win, lose, and pending */
-.won, .lost, .pending {
+.won {
+    background: rgba(0, 200, 0, 0.2) !important; /* Subtle green */
+    color: #0f0 !important; /* Bright green text */
+    font-weight: bold !important;
+}
+
+.lost {
+    background: rgba(200, 0, 0, 0.2) !important; /* Subtle red */
+    color: #f00 !important; /* Bright red text */
+    font-weight: bold !important;
+}
+
+.pending {
     background: transparent !important;
     color: var(--text-light) !important;
     font-weight: normal !important;
+
 }
 
 /* Ensure numbers inside parentheses remain white */
