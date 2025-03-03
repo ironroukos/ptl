@@ -150,12 +150,6 @@ th {
     font-weight: bold;
 }
 
-tr th:nth-child(7),
-tr td:nth-child(7) {
-    display: none;
-    background: #1a1a1a;
-}
-
 tr:hover {
     background: #292929;
 }
