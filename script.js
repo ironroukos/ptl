@@ -12,7 +12,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 skipEmptyLines: true,
                 complete: results => {
                     allBets = results.data.filter(bet => bet["Date"] && bet["Date"].trim() !== "");
+
+                    // Make sure we have ALL bets (Won, Lost, and Pending)
+                    console.log("Raw Bets from CSV:", allBets);
+
+                    // Sort all bets from newest to oldest
                     allBets.sort((a, b) => Date.parse(b["Date"]) - Date.parse(a["Date"]));
+
                     calculateTipsterStats();
                     displayLeaderboard();
                 }
@@ -29,6 +35,11 @@ function calculateTipsterStats() {
         }
         tipsterStats[bet.Tipster].profitLoss += parseFloat(bet["Profit/Loss"]) || 0;
         tipsterStats[bet.Tipster].bets.push(bet);
+    });
+
+    // Ensure each tipster's bets are sorted from newest to oldest
+    Object.values(tipsterStats).forEach(stats => {
+        stats.bets.sort((a, b) => Date.parse(b["Date"]) - Date.parse(a["Date"]));
     });
 }
 
@@ -57,20 +68,22 @@ function displayLeaderboard() {
         totalBetsInfo.innerHTML = `<strong>Total Bets: ${stats.bets.length}</strong>`;
         picksContainer.appendChild(totalBetsInfo);
 
-        // Betting history
+        // Betting history (sorted from newest to oldest)
         stats.bets.forEach(bet => {
             let rowClass = "";
             let textColor = ""; 
 
-            if (bet.Result === "Won") {
+            const betResult = bet.Result ? bet.Result.toLowerCase().trim() : ""; // Normalize text
+
+            if (betResult === "won") {
                 rowClass = "won"; 
                 textColor = "limegreen"; // Green for Won
-            } else if (bet.Result === "Lost") {
+            } else if (betResult === "lost") {
                 rowClass = "lost"; 
                 textColor = "red"; // Red for Lost
             } else {
                 rowClass = "pending"; 
-                textColor = "white"; // Gray/White for Pending
+                textColor = "white"; // White for Pending
             }
 
             const betItem = document.createElement("div");
