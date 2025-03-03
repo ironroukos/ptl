@@ -60,7 +60,7 @@ function toggleTipsterHistory(tipster) {
 function renderBets(bets) {
     const tbody = document.getElementById("bets-list");
     tbody.innerHTML = bets.map(bet => {
-        let rowClass = bet.Status === "Won" ? "won" : bet.Status === "Lost" ? "lost" : "pending";
+        let rowClass = bet.Result === "Won" ? "won" : bet.Result === "Lost" ? "lost" : "pending";
         return `
             <tr class="${rowClass}">
                 <td>${bet.Date}</td>
