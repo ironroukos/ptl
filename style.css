@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 :root {
     --primary: #4caf50;
@@ -16,56 +16,82 @@ body {
     color: var(--text-light);
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 header {
     background: var(--bg-light-dark);
     padding: 20px;
-    text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 h1 {
-    font-family: 'Dancing Script', cursive;
-    font-size: 48px;
+    font-size: 32px;
     color: var(--primary);
     margin: 0;
 }
 
-/* Sidebar */
-.sidebar {
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.stats {
     background: var(--bg-light-dark);
     padding: 15px;
-    border-radius: 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 
-/* Buttons */
-.sidebar button {
-    width: 100%;
-    padding: 10px;
+.stats p {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.leaderboard {
+    background: var(--bg-light-dark);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.leaderboard ul {
+    list-style: none;
+    padding: 0;
+}
+
+.leaderboard li {
     background: var(--primary);
     color: white;
-    border: none;
-    border-radius: 8px;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 6px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-.sidebar button:hover {
+.leaderboard li:hover {
     background: var(--secondary);
 }
 
-/* Table */
+.bet-history {
+    background: var(--bg-light-dark);
+    padding: 15px;
+    border-radius: 8px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
-    background: var(--bg-light-dark);
-    border-radius: 12px;
-    overflow: hidden;
 }
 
 th, td {
-    text-align: center;
     padding: 12px;
+    text-align: center;
     border-bottom: 1px solid var(--border);
 }
 
@@ -74,6 +100,21 @@ th {
     color: white;
 }
 
-.won { background: rgba(0, 200, 0, 0.2); color: #0f0; }
-.lost { background: rgba(200, 0, 0, 0.2); color: #f00; }
-.pending { background: transparent; color: var(--text-light); }
+tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.won {
+    background: rgba(0, 200, 0, 0.2) !important;
+    color: #0f0 !important;
+}
+
+.lost {
+    background: rgba(200, 0, 0, 0.2) !important;
+    color: #f00 !important;
+}
+
+.pending {
+    background: transparent !important;
+    color: var(--text-light) !important;
+}
