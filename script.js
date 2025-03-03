@@ -91,9 +91,6 @@ function renderBets(bets) {
                     <td>${bet.Match || "-"}</td>
                     <td>${bet.Prediction || "-"}</td>
                     <td>${bet.Odds ? parseFloat(bet.Odds).toFixed(2) : "-"}</td>
-                    <td>${bet.Stake || "-"}</td>
-                    <td>${bet.Result || "-"}</td>
-                    <td>${bet["Profit/Loss"] ? "€" + bet["Profit/Loss"] : "-"}</td>
                 </tr>
             `;
         })
