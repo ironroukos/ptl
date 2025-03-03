@@ -13,6 +13,13 @@
     </header>
 
     <div class="container">
+        <aside class="sidebar">
+            <div class="mobile-dropdown">
+                <select id="tipster-dropdown"></select>
+            </div>
+            <div class="desktop-buttons" id="tipster-buttons"></div>
+        </aside>
+
         <main class="content">
             <div class="stats">
                 <p>Total Bets: <span id="total-bets">0</span></p>
@@ -21,21 +28,33 @@
                 <p>Profit/Loss: <span id="profit-loss">€0.00</span></p>
             </div>
 
-<div class="leaderboard">
-    <h2>Leaderboard</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Tipster</th>
-                <th>Profit/Loss</th>
-            </tr>
-        </thead>
-        <tbody id="leaderboard-body">
-            <!-- Tipsters will be inserted here dynamically -->
-        </tbody>
-    </table>
-</div>
-            
+            <div class="leaderboard">
+                <h2>Leaderboard</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipster</th>
+                            <th>Profit/Loss</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body"></tbody>
+                </table>
+            </div>
+
+            <table role="table">
+                <thead>
+                    <tr role="row">
+                        <th role="columnheader">Date</th>
+                        <th role="columnheader">Match</th>
+                        <th role="columnheader">Prediction</th>
+                        <th role="columnheader">Odds</th>
+                    </tr>
+                </thead>
+                <tbody id="bets-list" role="rowgroup"></tbody>
+            </table>
+        </main>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
