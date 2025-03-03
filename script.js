@@ -59,14 +59,30 @@ function displayLeaderboard() {
 
         // Betting history
         stats.bets.forEach(bet => {
-            let rowClass = bet.Result === "Won" ? "won" : bet.Result === "Lost" ? "lost" : "pending";
+            let rowClass = "";
+            let textColor = ""; 
+
+            if (bet.Result === "Won") {
+                rowClass = "won"; 
+                textColor = "limegreen"; // Green for Won
+            } else if (bet.Result === "Lost") {
+                rowClass = "lost"; 
+                textColor = "red"; // Red for Lost
+            } else {
+                rowClass = "pending"; 
+                textColor = "white"; // Gray/White for Pending
+            }
+
             const betItem = document.createElement("div");
             betItem.className = `pick-item ${rowClass}`;
+            betItem.style.color = textColor;  // Apply color to text
+
             betItem.innerHTML = `
                 <strong>${bet.Date}</strong> - ${bet.Match || "-"} 
                 <span style="color: yellow;">${bet.Prediction || "-"}</span> 
                 (Odds: <strong>${bet.Odds ? parseFloat(bet.Odds).toFixed(2) : "-"}</strong>)
             `;
+
             picksContainer.appendChild(betItem);
         });
 
