@@ -14,25 +14,13 @@
 
     <div class="container">
         <aside class="sidebar">
+            <!-- Mobile Dropdown -->
             <div class="mobile-dropdown">
-                <select id="tipster-dropdown">
-                    <option value="Leaderboard">Leaderboard</option>
-                    <option value="nikosk952">nikosk952</option>
-                    <option value="ironroukos">ironroukos</option>
-                    <option value="accountant13">accountant13</option>
-                    <option value="spoik">spoik</option>
-                    <option value="theteacher">theteacher</option>
-                </select>
+                <select id="tipster-dropdown"></select>
             </div>
-            
-            <div class="desktop-buttons">
-                <button data-filter-type="tipster" data-filter-value="Leaderboard">Leaderboard</button>
-                <button data-filter-type="tipster" data-filter-value="nikosk952">nikosk952</button>
-                <button data-filter-type="tipster" data-filter-value="ironroukos">ironroukos</button>
-                <button data-filter-type="tipster" data-filter-value="accountant13">accountant13</button>
-                <button data-filter-type="tipster" data-filter-value="spoik">spoik</button>
-                <button data-filter-type="tipster" data-filter-value="theteacher">theteacher</button>
-            </div>
+
+            <!-- Desktop Buttons -->
+            <div class="desktop-buttons"></div>
         </aside>
 
         <main class="content">
@@ -44,15 +32,15 @@
             </div>
 
             <table role="table">
-            <thead>
-    <tr role="row">
-        <th role="columnheader">Date</th>
-        <th role="columnheader">Match</th>
-        <th role="columnheader">Prediction</th>
-        <th role="columnheader">Odds</th>
-    </tr>
-</thead>
-
+                <thead>
+                    <tr role="row">
+                        <th role="columnheader">Date</th>
+                        <th role="columnheader">Match</th>
+                        <th role="columnheader">Prediction</th>
+                        <th role="columnheader">Odds</th>
+                        <th role="columnheader">Result</th>
+                    </tr>
+                </thead>
                 <tbody id="bets-list" role="rowgroup"></tbody>
             </table>
         </main>
