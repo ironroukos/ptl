@@ -51,6 +51,13 @@ function displayLeaderboard() {
         picksContainer.className = "tipster-picks";
         picksContainer.style.display = "none";
 
+        // Total Bets section
+        const totalBetsInfo = document.createElement("div");
+        totalBetsInfo.className = "total-bets-info";
+        totalBetsInfo.innerHTML = `<strong>Total Bets: ${stats.bets.length}</strong>`;
+        picksContainer.appendChild(totalBetsInfo);
+
+        // Betting history
         stats.bets.forEach(bet => {
             let rowClass = bet.Result === "Won" ? "won" : bet.Result === "Lost" ? "lost" : "pending";
             const betItem = document.createElement("div");
