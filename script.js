@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 complete: results => {
                     allBets = results.data.filter(bet => bet["Date"] && bet["Date"].trim() !== "");
 
-                    // Make sure we have ALL bets (Won, Lost, and Pending)
-                    console.log("Raw Bets from CSV:", allBets);
+                    // DEBUG: Log all bets to check if 'Won' results are missing
+                    console.log("All bets retrieved:", allBets);
 
-                    // Sort all bets from newest to oldest
+                    // Sort bets from newest to oldest
                     allBets.sort((a, b) => Date.parse(b["Date"]) - Date.parse(a["Date"]));
 
                     calculateTipsterStats();
@@ -33,6 +33,7 @@ function calculateTipsterStats() {
         if (!tipsterStats[bet.Tipster]) {
             tipsterStats[bet.Tipster] = { profitLoss: 0, bets: [] };
         }
+
         tipsterStats[bet.Tipster].profitLoss += parseFloat(bet["Profit/Loss"]) || 0;
         tipsterStats[bet.Tipster].bets.push(bet);
     });
@@ -71,18 +72,19 @@ function displayLeaderboard() {
         // Betting history (sorted from newest to oldest)
         stats.bets.forEach(bet => {
             let rowClass = "";
-            let textColor = ""; 
+            let textColor = "";
 
-            const betResult = bet.Result ? bet.Result.toLowerCase().trim() : ""; // Normalize text
+            // Normalize the result field to avoid inconsistencies
+            const betResult = bet.Result ? bet.Result.toLowerCase().trim() : "pending"; 
 
-            if (betResult === "Won") {
-                rowClass = "Won"; 
+            if (betResult === "won") {
+                rowClass = "won"; 
                 textColor = "limegreen"; // Green for Won
-            } else if (betResult === "Lost") {
-                rowClass = "Lost"; 
+            } else if (betResult === "lost") {
+                rowClass = "lost"; 
                 textColor = "red"; // Red for Lost
             } else {
-                rowClass = "Pending"; 
+                rowClass = "pending"; 
                 textColor = "white"; // White for Pending
             }
 
