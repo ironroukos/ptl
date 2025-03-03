@@ -19,37 +19,24 @@ document.addEventListener("DOMContentLoaded", () => {
             return response.text();
         })
         .then((csvData) => {
-            console.log("✅ Raw CSV Data:", csvData); // Debugging Step 1
-            
             Papa.parse(csvData, {
                 header: true,
                 dynamicTyping: true,
                 skipEmptyLines: true,
                 complete: (results) => {
-                    console.log("✅ Parsed CSV Data:", results.data); // Debugging Step 2
-                    console.log("✅ Parsed CSV Headers:", Object.keys(results.data[0])); // Debugging Step 3
-
                     if (!results.data.length) {
                         console.error("❌ CSV is empty or malformed");
                         return;
                     }
 
-                    // ✅ Ensure column names exist
-                    if (!results.data[0]["Date"] || !results.data[0]["Match"]) {
-                        console.error("❌ Column names do not match expected structure!");
-                        return;
-                    }
-
-                    // ✅ Ensure only bets with a valid Date are included
                     allBets = results.data.filter(bet => bet["Date"] && bet["Date"].trim() !== "");
-                    console.log("📊 Filtered Bets After Removing Empty Dates:", allBets);
 
-                    // ✅ Sort by Date
+                    // ✅ Sort by Date (Newest to Oldest)
                     allBets.sort((a, b) => {
-    let dateA = new Date(a["Date"] + " " + (a["Time"] || "00:00"));
-    let dateB = new Date(b["Date"] + " " + (b["Time"] || "00:00"));
-    return dateB - dateA; // Sort by newest date first, then by latest time
-});
+                        let dateA = new Date(a["Date"] + " " + (a["Time"] || "00:00"));
+                        let dateB = new Date(b["Date"] + " " + (b["Time"] || "00:00"));
+                        return dateB - dateA;
+                    });
 
                     calculateTipsterStats();
                     applyFilters();
@@ -66,20 +53,15 @@ function filterBets(type, value) {
 }
 
 function applyFilters() {
-    console.log("📊 Applying Filters, Active Tipster:", activeFilters.tipster);
-    
     const filteredBets = allBets.filter(bet => {
         return activeFilters.tipster === "all" || bet.Tipster === activeFilters.tipster;
     });
 
-    console.log("✅ Bets After Filtering:", filteredBets);
     renderBets(filteredBets);
     updateStats(filteredBets);
 }
 
 function renderBets(bets) {
-    console.log("📝 Rendering Bets:", bets);
-
     const tbody = document.getElementById("bets-list");
     if (!tbody) {
         console.error("❌ Table body #bets-list not found!");
@@ -88,31 +70,23 @@ function renderBets(bets) {
 
     tbody.innerHTML = bets
         .map((bet) => {
-            let rowClass = bet.Status === "Won" ? "won" : bet.Status === "Lost" ? "lost" : "pending";
+            let rowClass = bet.Result === "Won" ? "won" : bet.Result === "Lost" ? "lost" : "pending";
             return `
                 <tr class="${rowClass}">
                     <td>${bet["Date"]}</td>
-                    <td>${bet.Tipster || "-"}</td>
-                    <td>${bet.Match || "-"}</td>
-                    <td>${bet.Prediction || "-"}</td>
-                    <td>${bet.Odds ? parseFloat(bet.Odds).toFixed(2) : "-"}</td>
-                    <td>${bet.Stake || "-"}</td>
-                    <td>${bet.Result || "-"}</td>
-                    <td>${bet["Profit/Loss"] ? "€" + bet["Profit/Loss"] : "-"}</td>
+                    <td>${bet["Match"] || "-"}</td>
+                    <td>${bet["Prediction"] || "-"}</td>
+                    <td>${bet["Odds"] ? parseFloat(bet["Odds"]).toFixed(2) : "-"}</td>
                 </tr>
             `;
         })
         .join("");
-
-    console.log("✅ Table Updated!");
 }
 
 function updateStats(bets) {
-    console.log("📊 Updating Stats for Bets:", bets.length);
-
     document.getElementById("total-bets").textContent = bets.length;
-    document.getElementById("won-bets").textContent = bets.filter((bet) => bet.Status === "Won").length;
-    document.getElementById("lost-bets").textContent = bets.filter((bet) => bet.Status === "Lost").length;
+    document.getElementById("won-bets").textContent = bets.filter((bet) => bet.Result === "Won").length;
+    document.getElementById("lost-bets").textContent = bets.filter((bet) => bet.Result === "Lost").length;
     
     const totalProfit = bets.reduce((sum, bet) => sum + (parseFloat(bet["Profit/Loss"]) || 0), 0).toFixed(2);
     document.getElementById("profit-loss").textContent = `€${totalProfit}`;
@@ -120,7 +94,6 @@ function updateStats(bets) {
 
 function calculateTipsterStats() {
     tipsterStats = {};
-    console.log("📊 Calculating Tipster Stats...");
 
     allBets.forEach((bet) => {
         if (!tipsterStats[bet.Tipster]) {
@@ -129,10 +102,16 @@ function calculateTipsterStats() {
         tipsterStats[bet.Tipster].profitLoss += parseFloat(bet["Profit/Loss"]) || 0;
     });
 
+    // Sort tipsters by profit (highest to lowest)
+    let sortedTipsters = Object.entries(tipsterStats).sort((a, b) => b[1].profitLoss - a[1].profitLoss);
+
+    // Update leaderboard buttons
     document.querySelectorAll(".sidebar button").forEach((button) => {
         const tipster = button.dataset.filterValue;
-        if (tipsterStats[tipster]) {
-            button.innerHTML = `${tipster} (€${tipsterStats[tipster].profitLoss.toFixed(2)})`;
+        const tipsterData = tipsterStats[tipster];
+
+        if (tipsterData) {
+            button.innerHTML = `${tipster} (€${tipsterData.profitLoss.toFixed(2)})`;
         }
     });
 
