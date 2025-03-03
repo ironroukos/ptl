@@ -75,14 +75,14 @@ function displayLeaderboard() {
 
             const betResult = bet.Result ? bet.Result.toLowerCase().trim() : ""; // Normalize text
 
-            if (betResult === "won") {
-                rowClass = "won"; 
+            if (betResult === "Won") {
+                rowClass = "Won"; 
                 textColor = "limegreen"; // Green for Won
-            } else if (betResult === "lost") {
-                rowClass = "lost"; 
+            } else if (betResult === "Lost") {
+                rowClass = "Lost"; 
                 textColor = "red"; // Red for Lost
             } else {
-                rowClass = "pending"; 
+                rowClass = "Pending"; 
                 textColor = "white"; // White for Pending
             }
 
