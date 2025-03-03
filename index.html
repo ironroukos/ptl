@@ -12,32 +12,16 @@
         <h1>Profitis Tipsters League</h1>
     </header>
 
-    <div class="container">
-        <div class="stats">
-            <p>Total Bets: <span id="total-bets">0</span></p>
-            <p>Won: <span id="won-bets">0</span></p>
-            <p>Lost: <span id="lost-bets">0</span></p>
-            <p>Profit/Loss: <span id="profit-loss">€0.00</span></p>
-        </div>
+    <div class="stats">
+        <p>Total Bets: <span id="total-bets">0</span></p>
+        <p>Won: <span id="won-bets">0</span></p>
+        <p>Lost: <span id="lost-bets">0</span></p>
+        <p>Profit/Loss: <span id="profit-loss">€0.00</span></p>
+    </div>
 
-        <div class="leaderboard">
-            <h2>Tipster Leaderboard</h2>
-            <ul id="tipster-list"></ul>
-        </div>
-
-        <div class="bet-history">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Match</th>
-                        <th>Prediction</th>
-                        <th>Odds</th>
-                    </tr>
-                </thead>
-                <tbody id="bets-list"></tbody>
-            </table>
-        </div>
+    <div class="leaderboard">
+        <h2>Tipster Leaderboard</h2>
+        <div id="tipster-list"></div>
     </div>
 
     <script src="script.js"></script>
