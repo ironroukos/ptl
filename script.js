@@ -1,84 +1,51 @@
-let allBets = [];
-let tipsterStats = {};
+const tipstersData = [
+    { name: "nikosk952", profit: 12.60 },
+    { name: "accountant13", profit: 8.50 },
+    { name: "spoik", profit: 1.00 },
+    { name: "ironroukos", profit: -11.20 },
+    { name: "theteacher", profit: -20.00 }
+];
 
-document.addEventListener("DOMContentLoaded", () => {
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQhc8Xcasi8_LyoO8J1Cltv0yLzRGkYnKYk6rQhox4-dcyHgj0ZPAtY5IJ-rHtr48K80vOyyFnrkjto/pub?output=csv")
-        .then(response => response.text())
-        .then(csvData => {
-            Papa.parse(csvData, {
-                header: true,
-                dynamicTyping: true,
-                skipEmptyLines: true,
-                complete: results => {
-                    allBets = results.data.filter(bet => bet["Date"] && bet["Date"].trim() !== "");
-                    allBets.sort((a, b) => Date.parse(b["Date"]) - Date.parse(a["Date"]));
-                    calculateTipsterStats();
-                    renderLeaderboard();
-                }
-            });
-        });
-});
+function updateLeaderboard() {
+    const leaderboardBody = document.getElementById("leaderboard-body");
+    leaderboardBody.innerHTML = "";
 
-function calculateTipsterStats() {
-    tipsterStats = {};
-    allBets.forEach(bet => {
-        if (!tipsterStats[bet.Tipster]) {
-            tipsterStats[bet.Tipster] = { profitLoss: 0, bets: [] };
-        }
-        tipsterStats[bet.Tipster].profitLoss += parseFloat(bet["Profit/Loss"]) || 0;
-        tipsterStats[bet.Tipster].bets.push(bet);
+    tipstersData.forEach(tipster => {
+        const row = document.createElement("tr");
+
+        const nameCell = document.createElement("td");
+        nameCell.textContent = tipster.name;
+
+        const profitCell = document.createElement("td");
+        profitCell.textContent = `€${tipster.profit.toFixed(2)}`;
+        profitCell.classList.add(tipster.profit >= 0 ? "profit-positive" : "profit-negative");
+
+        row.appendChild(nameCell);
+        row.appendChild(profitCell);
+        leaderboardBody.appendChild(row);
     });
 }
 
-function renderLeaderboard() {
-    const leaderboard = document.getElementById("leaderboard");
-    leaderboard.innerHTML = "";
+function populateTipsterButtons() {
+    const dropdown = document.getElementById("tipster-dropdown");
+    const buttonsContainer = document.getElementById("tipster-buttons");
     
-    const sortedTipsters = Object.entries(tipsterStats).sort((a, b) => b[1].profitLoss - a[1].profitLoss);
-    
-    sortedTipsters.forEach(([tipster, data]) => {
-        const tipsterElement = document.createElement("div");
-        tipsterElement.classList.add("tipster");
-        
-        tipsterElement.innerHTML = `
-            <div class="tipster-header" onclick="toggleTipster('${tipster}')">
-                ${tipster} (€${data.profitLoss.toFixed(2)})
-            </div>
-            <div class="tipster-bets" id="${tipster}-bets" style="display: none;">
-                ${renderBets(data.bets)}
-            </div>
-        `;
-        
-        leaderboard.appendChild(tipsterElement);
+    tipstersData.forEach(tipster => {
+        // Dropdown Option
+        const option = document.createElement("option");
+        option.value = tipster.name;
+        option.textContent = tipster.name;
+        dropdown.appendChild(option);
+
+        // Sidebar Button
+        const button = document.createElement("button");
+        button.textContent = tipster.name;
+        button.setAttribute("data-filter-type", "tipster");
+        button.setAttribute("data-filter-value", tipster.name);
+        buttonsContainer.appendChild(button);
     });
 }
 
-function renderBets(bets) {
-    return `
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Match</th>
-                    <th>Prediction</th>
-                    <th>Odds</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${bets.map(bet => `
-                    <tr class="${bet.Result.toLowerCase()}">
-                        <td>${bet.Date}</td>
-                        <td>${bet.Match || "-"}</td>
-                        <td>${bet.Prediction || "-"}</td>
-                        <td>${bet.Odds ? parseFloat(bet.Odds).toFixed(2) : "-"}</td>
-                    </tr>
-                `).join("")}
-            </tbody>
-        </table>
-    `;
-}
-
-function toggleTipster(tipster) {
-    const betsContainer = document.getElementById(`${tipster}-bets`);
-    betsContainer.style.display = betsContainer.style.display === "none" ? "block" : "none";
-}
+// Run functions
+updateLeaderboard();
+populateTipsterButtons();
