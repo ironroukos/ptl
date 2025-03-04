@@ -98,3 +98,11 @@ h1 {
 .pick-item:last-child {
     border-bottom: none;
 }
+
+.won {
+    color: #4caf50; /* Green */
+}
+
+.lost {
+    color: #f44336; /* Red */
+}
