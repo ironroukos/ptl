@@ -12,13 +12,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 skipEmptyLines: true,
                 complete: results => {
                     allBets = results.data.filter(bet => bet["Date"] && bet["Date"].trim() !== "");
-                    allBets.sort((a, b) => Date.parse(b["Date"]) - Date.parse(a["Date"]));
+                    allBets.sort((a, b) => parseCustomDate(b["Date"]) - parseCustomDate(a["Date"])); // Sort newest first
                     calculateTipsterStats();
                     displayLeaderboard();
                 }
             });
         });
 });
+
+allBets.sort((a, b) => parseCustomDate(b["Date"]) - parseCustomDate(a["Date"]));
+
+function parseCustomDate(dateStr) {
+    if (!dateStr) return 0; // Handle empty values
+    const dateRegex = /(\d{1,2})\/(\d{1,2}) (\d{1,2}):(\d{2})/;
+    const match = dateStr.match(dateRegex);
+
+    if (!match) return 0; // Skip invalid dates
+
+    const [, day, month, hour, minute] = match.map(Number);
+    const currentYear = new Date().getFullYear(); // Assume current year
+    return new Date(currentYear, month - 1, day, hour, minute).getTime();
+}
 
 function calculateTipsterStats() {
     tipsterStats = {};
@@ -51,9 +65,16 @@ function displayLeaderboard() {
         picksContainer.className = "tipster-picks";
         picksContainer.style.display = "none";
 
+        // Add total bets count
+        const totalBets = document.createElement("div");
+        totalBets.className = "total-bets";
+        totalBets.textContent = `Total Bets: ${stats.bets.length}`;
+        picksContainer.appendChild(totalBets);
+
         stats.bets.forEach(bet => {
+            let rowClass = bet.Result === "Won" ? "won" : bet.Result === "Lost" ? "lost" : "pending";
             const betItem = document.createElement("div");
-            betItem.className = "pick-item";
+            betItem.className = `pick-item ${rowClass}`;
             betItem.innerHTML = `
                 <strong>${bet.Date}</strong> - ${bet.Match || "-"} 
                 <span style="color: yellow;">${bet.Prediction || "-"}</span> 
