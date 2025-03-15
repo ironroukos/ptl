@@ -80,7 +80,33 @@ function displayLeaderboard() {
     tipsterName.textContent = tipster;
     
     const tipsterStats = document.createElement("span");
-    tipsterStats.textContent = `${stats.bets.length} bets | ${stats.wins}W ${stats.losses}L | P/L: €${stats.profitLoss.toFixed(2)}`;
+    
+    // Create span for total bets with stats-total class
+    const totalBetsSpan = document.createElement("span");
+    totalBetsSpan.textContent = `${stats.bets.length} bets`;
+    totalBetsSpan.className = "stats-total";
+    
+    // Create span for wins with stats-wins class
+    const winsSpan = document.createElement("span");
+    winsSpan.textContent = ` | ${stats.wins}W`;
+    winsSpan.className = "stats-wins";
+    
+    // Create span for losses with stats-losses class
+    const lossesSpan = document.createElement("span");
+    lossesSpan.textContent = ` ${stats.losses}L`;
+    lossesSpan.className = "stats-losses";
+    
+    // Create span for P/L with stats-profit or stats-loss class
+    const plSpan = document.createElement("span");
+    plSpan.textContent = ` | P/L: €${stats.profitLoss.toFixed(2)}`;
+    plSpan.className = stats.profitLoss >= 0 ? "stats-profit" : "stats-loss";
+    
+    // Append all spans to the stats span
+    tipsterStats.appendChild(totalBetsSpan);
+    tipsterStats.appendChild(winsSpan);
+    tipsterStats.appendChild(lossesSpan);
+    tipsterStats.appendChild(plSpan);
+    
     tipsterStats.style.textAlign = "right";
     
     // Add spans to button
