@@ -1,46 +1,40 @@
- @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
 :root {
-            --primary: #4caf50;
-            --secondary: #2e7d32;
-            --bg-dark: #121212;
-            --bg-light-dark: #1e1e1e;
-            --border: #333;
-            --text-light: #ffffff;
-            --text-muted: #b0b0b0;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-light);
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-
-        header {
-            background: var(--bg-light-dark);
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-        }
-
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 48px;
-            color: var(--primary);
-            margin: 0;
-        }
-
-        .leaderboard {
-            background: var(--bg-light-dark);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 20px auto;
-            max-width: 600px;
-        }
-
-     .tipster-button {
+    --primary: #4caf50;
+    --secondary: #2e7d32;
+    --bg-dark: #121212;
+    --bg-light-dark: #1e1e1e;
+    --border: #333;
+    --text-light: #ffffff;
+    --text-muted: #b0b0b0;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+header {
+    background: var(--bg-light-dark);
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 48px;
+    color: var(--primary);
+    margin: 0;
+}
+.leaderboard {
+    background: var(--bg-light-dark);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px auto;
+    max-width: 600px;
+}
+.tipster-button {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -57,78 +51,82 @@
     text-align: left;
     transition: background 0.3s, transform 0.2s;
 }
-
 .tipster-button:hover {
     background: var(--secondary); /* Dark green hover effect */
     transform: scale(1.05);
 }
-
-        /* Inline stats next to tipster name */
-        .stats-inline {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-left: 10px;
-        }
-
-        .tipster-picks {
-            display: none;
-            background: var(--bg-light-dark);
-            margin-top: 5px;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .pick-item {
-            padding: 5px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .pick-item:last-child {
-            border-bottom: none;
-        }
-
-        .won {
-            color: #4caf50; /* Green */
-        }
-
-        .lost {
-            color: #f44336; /* Red */
-        }
-
+/* Inline stats next to tipster name */
+.stats-inline {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-left: 10px;
+}
+.tipster-picks {
+    display: none;
+    background: var(--bg-light-dark);
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+.pick-item {
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+}
+.pick-item:last-child {
+    border-bottom: none;
+}
+.won {
+    color: #4caf50; /* Green */
+}
+.lost {
+    color: #f44336; /* Red */
+}
 .stats p {
     font-size: 18px;
     font-weight: bold;
 }
-
 .stats .total-bets {
     color: #b0b0b0; /* Grey for total bets */
 }
-
 .stats .wins {
     color: #4caf50; /* Green for wins */
 }
-
 .stats .losses {
     color: #f44336; /* Red for losses */
 }
-
 .stats .profit {
     color: #4caf50; /* Green if profit */
 }
-
 .stats .loss {
     color: #f44336; /* Red if loss */
 }
 
-        /* Adjust for small screens */
-        @media (max-width: 500px) {
-            .tipster-button {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .stats-inline {
-                margin-left: 0;
-                margin-top: 5px;
-            }
-        }
+/* New classes for styling stats in tipster buttons */
+.tipster-button .stats-total {
+    color: #b0b0b0; /* Grey for total bets */
+}
+.tipster-button .stats-wins {
+    color: #4caf50; /* Green for wins */
+}
+.tipster-button .stats-losses {
+    color: #f44336; /* Red for losses */
+}
+.tipster-button .stats-profit {
+    color: #4caf50; /* Green if profit/positive */
+}
+.tipster-button .stats-loss {
+    color: #f44336; /* Red if loss/negative */
+}
+
+/* Adjust for small screens */
+@media (max-width: 500px) {
+    .tipster-button {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .stats-inline {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+}
