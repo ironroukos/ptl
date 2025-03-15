@@ -1,51 +1,3 @@
-let allBets = [];
-let tipsterStats = {};
-let activeTipster = null;
-
-document.addEventListener("DOMContentLoaded", () => {
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQhc8Xcasi8_LyoO8J1Cltv0yLzRGkYnKYk6rQhox4-dcyHgj0ZPAtY5IJ-rHtr48K80vOyyFnrkjto/pub?output=csv")
-        .then(response => response.text())
-        .then(csvData => {
-            Papa.parse(csvData, {
-                header: true,
-                dynamicTyping: true,
-                skipEmptyLines: true,
-                complete: results => {
-                    allBets = results.data.filter(bet => bet["Date"] && bet["Date"].trim() !== "");
-                    allBets.sort((a, b) => parseCustomDate(b["Date"]) - parseCustomDate(a["Date"])); // Sort newest first
-                    calculateTipsterStats();
-                    displayLeaderboard();
-                }
-            });
-        });
-});
-
-allBets.sort((a, b) => parseCustomDate(b["Date"]) - parseCustomDate(a["Date"]));
-
-function parseCustomDate(dateStr) {
-    if (!dateStr) return 0; // Handle empty values
-    const dateRegex = /(\d{1,2})\/(\d{1,2}) (\d{1,2}):(\d{2})/;
-    const match = dateStr.match(dateRegex);
-
-    if (!match) return 0; // Skip invalid dates
-
-    const [, day, month, hour, minute] = match.map(Number);
-    const currentYear = new Date().getFullYear(); // Assume current year
-    return new Date(currentYear, month - 1, day, hour, minute).getTime();
-}
-
-function calculateTipsterStats() {
-    tipsterStats = {};
-
-    allBets.forEach(bet => {
-        if (!tipsterStats[bet.Tipster]) {
-            tipsterStats[bet.Tipster] = { profitLoss: 0, bets: [] };
-        }
-        tipsterStats[bet.Tipster].profitLoss += parseFloat(bet["Profit/Loss"]) || 0;
-        tipsterStats[bet.Tipster].bets.push(bet);
-    });
-}
-
 function displayLeaderboard() {
     const leaderboard = document.getElementById("tipster-list");
     leaderboard.innerHTML = "";
@@ -57,19 +9,21 @@ function displayLeaderboard() {
         const tipsterContainer = document.createElement("div");
         tipsterContainer.className = "tipster-container";
 
+        const wins = stats.bets.filter(bet => bet.Result === "Won").length;
+        const losses = stats.bets.filter(bet => bet.Result === "Lost").length;
+
         const tipsterButton = document.createElement("button");
         tipsterButton.className = "tipster-button";
-        tipsterButton.textContent = `${tipster} (€${stats.profitLoss.toFixed(2)})`;
+        tipsterButton.innerHTML = `
+            <strong>${tipster}</strong> 
+            <span class="stats-inline">
+                | Bets: ${stats.bets.length} | Wins: ${wins} | Losses: ${losses} | P/L: €${stats.profitLoss.toFixed(2)}
+            </span>
+        `;
 
         const picksContainer = document.createElement("div");
         picksContainer.className = "tipster-picks";
         picksContainer.style.display = "none";
-
-        // Add total bets count
-        const totalBets = document.createElement("div");
-        totalBets.className = "total-bets";
-        totalBets.textContent = `Total Bets: ${stats.bets.length}`;
-        picksContainer.appendChild(totalBets);
 
         stats.bets.forEach(bet => {
             let rowClass = bet.Result === "Won" ? "won" : bet.Result === "Lost" ? "lost" : "pending";
@@ -86,11 +40,4 @@ function displayLeaderboard() {
         tipsterButton.addEventListener("click", () => {
             const isExpanded = picksContainer.style.display === "block";
             document.querySelectorAll(".tipster-picks").forEach(p => p.style.display = "none");
-            picksContainer.style.display = isExpanded ? "none" : "block";
-        });
-
-        tipsterContainer.appendChild(tipsterButton);
-        tipsterContainer.appendChild(picksContainer);
-        leaderboard.appendChild(tipsterContainer);
-    });
-}
+            picksContainer.style.display =
