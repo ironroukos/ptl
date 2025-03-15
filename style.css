@@ -123,10 +123,19 @@ h1 {
 @media (max-width: 500px) {
     .tipster-button {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center; /* Center align items in mobile view */
     }
     .stats-inline {
         margin-left: 0;
         margin-top: 5px;
+    }
+    .tipster-button > span:last-child {
+        text-align: center; /* Center align the stats text */
+        margin-top: 8px; /* Add some spacing between name and stats */
+        width: 100%; /* Full width for proper centering */
+    }
+    .tipster-button > span:first-child {
+        text-align: center; /* Center align the tipster name */
+        width: 100%; /* Full width for proper centering */
     }
 }
