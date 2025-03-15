@@ -40,27 +40,28 @@
             max-width: 600px;
         }
 
-        .tipster-button {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 12px;
-            margin: 6px 0;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            text-align: left;
-            transition: background 0.3s, transform 0.2s;
-        }
+     .tipster-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+    margin: 6px 0;
+    background: #000; /* Black background */
+    color: #4caf50; /* Light green text */
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: left;
+    transition: background 0.3s, transform 0.2s;
+}
 
-        .tipster-button:hover {
-            background: var(--secondary);
-            transform: scale(1.05);
-        }
+.tipster-button:hover {
+    background: var(--secondary); /* Dark green hover effect */
+    transform: scale(1.05);
+}
 
         /* Inline stats next to tipster name */
         .stats-inline {
