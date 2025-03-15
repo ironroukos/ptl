@@ -1,108 +1,108 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
 
 :root {
-    --primary: #4caf50;
-    --secondary: #2e7d32;
-    --bg-dark: #121212;
-    --bg-light-dark: #1e1e1e;
-    --border: #333;
-    --text-light: #ffffff;
-    --text-muted: #b0b0b0;
-}
+            --primary: #4caf50;
+            --secondary: #2e7d32;
+            --bg-dark: #121212;
+            --bg-light-dark: #1e1e1e;
+            --border: #333;
+            --text-light: #ffffff;
+            --text-muted: #b0b0b0;
+        }
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background: var(--bg-dark);
-    color: var(--text-light);
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
 
-header {
-    background: var(--bg-light-dark);
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-}
+        header {
+            background: var(--bg-light-dark);
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
 
-h1 {
-    font-family: 'Dancing Script', cursive;
-    font-size: 48px;
-    color: var(--primary);
-    margin: 0;
-}
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 48px;
+            color: var(--primary);
+            margin: 0;
+        }
 
-.stats {
-    display: flex;
-    justify-content: space-around;
-    background: var(--bg-light-dark);
-    padding: 15px;
-    border-radius: 12px;
-    margin: 20px auto;
-    max-width: 800px;
-}
+        .leaderboard {
+            background: var(--bg-light-dark);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
 
-.stats p {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--primary);
-}
+        .tipster-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 12px;
+            margin: 6px 0;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: left;
+            transition: background 0.3s, transform 0.2s;
+        }
 
-.leaderboard {
-    background: var(--bg-light-dark);
-    padding: 20px;
-    border-radius: 12px;
-    margin: 20px auto;
-    max-width: 600px;
-}
+        .tipster-button:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
 
-.leaderboard h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
+        /* Inline stats next to tipster name */
+        .stats-inline {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-left: 10px;
+        }
 
-.tipster-button {
-    width: 100%;
-    padding: 12px;
-    margin: 6px 0;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    transition: background 0.3s, transform 0.2s;
-}
+        .tipster-picks {
+            display: none;
+            background: var(--bg-light-dark);
+            margin-top: 5px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
 
-.tipster-button:hover {
-    background: var(--secondary);
-    transform: scale(1.05);
-}
+        .pick-item {
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border);
+        }
 
-.tipster-picks {
-    display: none;
-    background: var(--bg-light-dark);
-    margin-top: 5px;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 14px;
-}
+        .pick-item:last-child {
+            border-bottom: none;
+        }
 
-.pick-item {
-    padding: 5px 0;
-    border-bottom: 1px solid var(--border);
-}
+        .won {
+            color: #4caf50; /* Green */
+        }
 
-.pick-item:last-child {
-    border-bottom: none;
-}
+        .lost {
+            color: #f44336; /* Red */
+        }
 
-.won {
-    color: #4caf50; /* Green */
-}
-
-.lost {
-    color: #f44336; /* Red */
-}
+        /* Adjust for small screens */
+        @media (max-width: 500px) {
+            .tipster-button {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .stats-inline {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+        }
