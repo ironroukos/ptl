@@ -86,27 +86,4 @@
             leaderboard.appendChild(tipsterContainer);
         });
     }
-
-function getStatElement(label, value, className) {
-    const stat = document.createElement("p");
-    stat.className = className;
-    stat.innerHTML = `${label}: <span>${value}</span>`;
-    return stat;
-}
-
-function displayTipsterStats(tipster, stats) {
-    const picksContainer = document.createElement("div");
-    picksContainer.className = "tipster-picks";
-    picksContainer.style.display = "none";
-
-    // Create Stats Section
-    picksContainer.appendChild(getStatElement("Total Bets", stats.bets.length, "total-bets"));
-    picksContainer.appendChild(getStatElement("Wins", stats.bets.filter(bet => bet.Result === "Won").length, "wins"));
-    picksContainer.appendChild(getStatElement("Losses", stats.bets.filter(bet => bet.Result === "Lost").length, "losses"));
-
-    // Profit/Loss styling based on value
-    const profitLossClass = stats.profitLoss >= 0 ? "profit" : "loss";
-    picksContainer.appendChild(getStatElement("P/L", `€${stats.profitLoss.toFixed(2)}`, profitLossClass));
-
-    return picksContainer;
 }
