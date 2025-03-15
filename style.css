@@ -96,6 +96,31 @@
             color: #f44336; /* Red */
         }
 
+.stats p {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.stats .total-bets {
+    color: #b0b0b0; /* Grey for total bets */
+}
+
+.stats .wins {
+    color: #4caf50; /* Green for wins */
+}
+
+.stats .losses {
+    color: #f44336; /* Red for losses */
+}
+
+.stats .profit {
+    color: #4caf50; /* Green if profit */
+}
+
+.stats .loss {
+    color: #f44336; /* Red if loss */
+}
+
         /* Adjust for small screens */
         @media (max-width: 500px) {
             .tipster-button {
