@@ -40,20 +40,17 @@ function calculateTipsterStats() {
         profitLoss: 0,
         bets: [],
         wins: 0,
-        losses: 0,
-        pending: 0
+        losses: 0
       };
     }
     tipsterStats[bet.Tipster].profitLoss += parseFloat(bet["Profit/Loss"]) || 0;
     tipsterStats[bet.Tipster].bets.push(bet);
     
-    // Count wins, losses and pending bets
+    // Count only wins and losses
     if (bet.Result === "Won") {
       tipsterStats[bet.Tipster].wins++;
     } else if (bet.Result === "Lost") {
       tipsterStats[bet.Tipster].losses++;
-    } else {
-      tipsterStats[bet.Tipster].pending++;
     }
   });
 }
@@ -72,8 +69,23 @@ function displayLeaderboard() {
     const tipsterButton = document.createElement("button");
     tipsterButton.className = "tipster-button";
     
-    // Replace parenthesis with stats
-    tipsterButton.textContent = `${tipster} 📊 ${stats.bets.length} bets | ${stats.wins}W ${stats.losses}L ${stats.pending}P | P/L: €${stats.profitLoss.toFixed(2)}`;
+    // Create a flex container for the button content
+    tipsterButton.style.display = "flex";
+    tipsterButton.style.justifyContent = "space-between";
+    tipsterButton.style.width = "100%";
+    tipsterButton.style.textAlign = "left";
+    
+    // Create spans for tipster name and stats
+    const tipsterName = document.createElement("span");
+    tipsterName.textContent = tipster;
+    
+    const tipsterStats = document.createElement("span");
+    tipsterStats.textContent = `${stats.bets.length} bets | ${stats.wins}W ${stats.losses}L | P/L: €${stats.profitLoss.toFixed(2)}`;
+    tipsterStats.style.textAlign = "right";
+    
+    // Add spans to button
+    tipsterButton.appendChild(tipsterName);
+    tipsterButton.appendChild(tipsterStats);
     
     const picksContainer = document.createElement("div");
     picksContainer.className = "tipster-picks";
