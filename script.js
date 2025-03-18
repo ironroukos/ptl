@@ -96,10 +96,12 @@ function displayLeaderboard() {
     lossesSpan.textContent = ` ${stats.losses}L`;
     lossesSpan.className = "stats-losses";
     
-    // Create span for P/L with stats-profit or stats-loss class
-    const plSpan = document.createElement("span");
-    plSpan.textContent = ` | P/L: €${stats.profitLoss.toFixed(2)}`;
-    plSpan.className = stats.profitLoss >= 0 ? "stats-profit" : "stats-loss";
+
+ // Create span for P/L with stats-profit or stats-loss class
+const plSpan = document.createElement("span");
+const sign = stats.profitLoss >= 0 ? "+" : "-";
+plSpan.textContent = ` | ${sign}€${Math.abs(stats.profitLoss).toFixed(2)}`;
+plSpan.className = stats.profitLoss >= 0 ? "stats-profit" : "stats-loss";
     
     // Append all spans to the stats span
     tipsterStats.appendChild(totalBetsSpan);
